@@ -1,5 +1,7 @@
 "use client";
 
+import { BrandSignature } from "@/components/brand-signature";
+
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useInstallPrompt } from "@/hooks/use-install-prompt";
@@ -24,15 +26,7 @@ export function TopNav({ onSearchClick, onProfile }: TopNavProps) {
     <nav className={cn("top-nav", scrolled && "scrolled")} aria-label="Navegação principal">
       <div className="top-nav-inner">
         <div className="top-nav-brand">
-          <img
-            src="/logo-achadinhos-do-condominio.png?v=3"
-            alt="Achadinhos do Condomínio"
-            className="top-nav-brand-logo"
-            width={600}
-            height={120}
-            fetchPriority="high"
-            decoding="async"
-          />
+          <BrandSignature className="top-nav-brand-logo" tone="light" />
         </div>
 
         <button

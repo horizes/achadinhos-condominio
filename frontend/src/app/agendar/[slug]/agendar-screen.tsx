@@ -1,5 +1,7 @@
 "use client";
 
+import { BrandSignature } from "@/components/brand-signature";
+
 // Página pública de agendamento (estilo Calendly):
 //   01 Escolha o dia → 02 Escolha o horário → 03 Seus dados → confirmação.
 // Os slots chegam em ISO com offset de Brasília; o agrupamento por dia e os
@@ -252,14 +254,7 @@ export function AgendarScreen({ slug }: AgendarScreenProps) {
         <div className="agd-hero-inner">
           <Link href="/" className="agd-brand" aria-label="Achadinhos do Condomínio — início">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/mobile-logo-achadinhos-do-condominio.png?v=3"
-              alt="Achadinhos do Condomínio"
-              className="agd-brand-logo"
-              width={760}
-              height={176}
-              decoding="async"
-            />
+            <BrandSignature className="agd-brand-logo" tone="light" />
           </Link>
           {phase === "loading" ? (
             <div className="agd-hero-skel" aria-hidden>

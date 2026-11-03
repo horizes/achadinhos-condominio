@@ -1,22 +1,37 @@
-# CODING AGENTS: READ THIS FIRST
+# Achadinhos do Condomínio
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Marketplace para o mercado condominial, atualizado com a identidade **Executive Navy & Gold** usada na plataforma Achadinhos Indica.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+Base original: [oyaga/achadinhos](https://github.com/oyaga/achadinhos), commit `629d310`. O histórico original foi preservado na cópia local.
 
-## What you should do — IMPORTANT
+## Estrutura
 
-**Read `ligia/project/index.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+- `frontend/`: Next.js 16, React 19, páginas públicas, painel administrativo e PWA.
+- `backend/`: API Go, autenticação, agenda, certificados e integrações.
+- `backend/migrations/`: migrações do PostgreSQL.
+- `project/`: protótipos originais de referência; não substituem o frontend de produção.
+- `Dockerfile` e `docker-compose.yml`: aplicação integrada com backend e PostgreSQL.
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Identidade visual
 
-## About the design files
+Azul-marinho `#071735`, azul executivo `#102B50`, dourado `#C6A15B`, branco e cinza `#F4F6F8`. Fonte Manrope servida localmente, mascote dourado oficial à direita do nome e logos Blue, Top e Black da plataforma. A navegação e os serviços existentes foram mantidos.
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+Detalhes em [IDENTIDADE-VISUAL.md](IDENTIDADE-VISUAL.md), incluindo arquivos e publicação.
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+## Desenvolvimento
 
-## Bundle contents
+```sh
+cd frontend
+npm ci
+npm run dev
+```
 
-- `ligia/README.md` — this file
-- `ligia/project/` — the `Ligia` project files (HTML prototypes, assets, components)
+Configure `NEXT_PUBLIC_API_URL` para o backend desejado (padrão de desenvolvimento: `http://localhost:8080/api/v1`). Para o backend e banco, siga [backend/README.md](backend/README.md) e `.env.example`.
+
+## Produção
+
+O frontend é exportado e incorporado ao servidor Go no build Docker. A aplicação completa precisa do backend e PostgreSQL; GitHub Pages sozinho não executa essas funções. O Dockerfile mantém o fluxo original de geração das páginas de empresas e produtos consultando a API configurada durante o build.
+
+O workflow publica no registro de imagens da conta do próprio repositório. Redeploy via Portainer só ocorre por disparo manual e com o segredo configurado. Não inclui credenciais de produção.
+
+Validação e limites em [VALIDACAO.md](VALIDACAO.md).

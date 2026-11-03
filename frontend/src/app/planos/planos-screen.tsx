@@ -100,7 +100,7 @@ export function PlanosScreen() {
           <div className="cert-tier-grid plan-grid">
             {PLANS.map((p) => (
               <div className={`cert-tier-card plan-card ${p.key}`} key={p.key}>
-                <span className={`cert-seal ${p.key} lg`}>{p.name}</span>
+                <img className="plan-official-logo" src={`/brand/${p.key === "blue" ? "plano-blue-3bee747f44aa.png" : p.key === "ouro" ? "plano-top-2743cb2341a5.png" : "plano-black-09d0106dda8f.png"}`} alt={`Plano ${p.name}`} width={136} height={136} loading="lazy" />
                 <div className="cert-tier-tagline">{p.tagline}</div>
                 <p className="cert-tier-desc">{p.desc}</p>
                 <ul className="plan-list">

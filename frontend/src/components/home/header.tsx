@@ -1,5 +1,7 @@
 "use client";
 
+import { BrandSignature } from "@/components/brand-signature";
+
 import { useAuth } from "@/contexts/auth-context";
 import { Icon } from "../icons";
 
@@ -21,15 +23,7 @@ export function Header({ onSearchClick }: HeaderProps) {
   return (
     <header className="header home-mobile-header">
       <div className="header-top">
-        <img
-          src="/mobile-logo-achadinhos-do-condominio.png?v=3"
-          alt="Achadinhos do Condomínio"
-          className="brand-logo"
-          width={760}
-          height={176}
-          fetchPriority="high"
-          decoding="async"
-        />
+        <BrandSignature className="brand-logo" tone="light" />
       </div>
 
       <div className="greeting">

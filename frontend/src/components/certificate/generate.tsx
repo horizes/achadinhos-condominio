@@ -62,40 +62,6 @@ async function publicImageToDataUrl(path: string): Promise<string | null> {
   }
 }
 
-// Rasteriza um SVG do site num PNG data URL (o @react-pdf/renderer não decodifica
-// SVG em <Image>). Desenha o primeiro frame num canvas na altura pedida.
-async function svgToPngDataUrl(path: string, targetHeight: number): Promise<string | null> {
-  try {
-    const res = await fetch(path);
-    if (!res.ok) return null;
-    const svgText = await res.text();
-    const blobUrl = URL.createObjectURL(new Blob([svgText], { type: "image/svg+xml" }));
-    try {
-      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-        const el = document.createElement("img");
-        el.onload = () => resolve(el);
-        el.onerror = () => reject(new Error("svg load failed"));
-        el.src = blobUrl;
-      });
-      const ratio = img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1;
-      // 2x a altura final no PDF, para o mascote sair nítido na impressão.
-      const h = Math.round(targetHeight * 2);
-      const w = Math.max(1, Math.round(h * ratio));
-      const canvas = document.createElement("canvas");
-      canvas.width = w;
-      canvas.height = h;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return null;
-      ctx.drawImage(img, 0, 0, w, h);
-      return canvas.toDataURL("image/png");
-    } finally {
-      URL.revokeObjectURL(blobUrl);
-    }
-  } catch {
-    return null;
-  }
-}
-
 export interface BuildCertificateInput {
   tipo?: "empresa" | "afiliado";
   tier?: "blue" | "ouro" | "black";
@@ -115,7 +81,7 @@ export async function buildCertificateBlob(input: BuildCertificateInput): Promis
   const qrDataUrl = await QRCode.toDataURL(verifyUrl(input.code), {
     margin: 1,
     width: 320,
-    color: { dark: "#0b1b3b", light: "#ffffff" },
+    color: { dark: "#071735", light: "#ffffff" },
   });
 
   let signatureDataUrl = input.signatureDataUrl ?? null;
@@ -125,10 +91,8 @@ export async function buildCertificateBlob(input: BuildCertificateInput): Promis
 
   // Logo oficial + mascote da marca. Best-effort: se algum falhar, o PDF sai
   // com o fallback (logo desenhado) / sem o mascote.
-  const [logoDataUrl, mascotDataUrl] = await Promise.all([
-    publicImageToDataUrl("/logo-achadinhos-do-condominio.png"),
-    svgToPngDataUrl("/mascote-acenando.svg", 74),
-  ]);
+  const mascotDataUrl = await publicImageToDataUrl("/brand/mascote-dourado.png");
+  const logoDataUrl = mascotDataUrl;
 
   const data: CertificateDocData = {
     tipo: input.tipo ?? "empresa",

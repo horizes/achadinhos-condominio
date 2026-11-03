@@ -1,5 +1,7 @@
 "use client";
 
+import { BrandSignature } from "@/components/brand-signature";
+
 import Link from "next/link";
 import { Icon } from "../icons";
 
@@ -52,15 +54,7 @@ export function SiteFooter({ onShopping, onHighlights, authed }: SiteFooterProps
           <div className="site-footer-brand">
             <div className="site-footer-lockup">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/mobile-logo-achadinhos-do-condominio.png?v=3"
-                alt="Achadinhos do Condomínio"
-                className="site-footer-logo"
-                width={760}
-                height={176}
-                loading="lazy"
-                decoding="async"
-              />
+              <BrandSignature className="site-footer-logo" tone="light" />
             </div>
             <p className="site-footer-tagline">
               Serviços, afiliados e produtos de confiança para o seu

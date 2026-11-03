@@ -1,5 +1,7 @@
 "use client";
 
+import { BrandSignature } from "@/components/brand-signature";
+
 import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -135,15 +137,7 @@ export function LoginScreen() {
         <div className="login-card">
           <div className="login-frame">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/mobile-logo-achadinhos-do-condominio.png?v=3"
-              alt="Achadinhos do Condomínio"
-              className="login-logo"
-              width={760}
-              height={176}
-              fetchPriority="high"
-              decoding="async"
-            />
+            <BrandSignature className="login-logo" tone="ink" />
 
             <div className="login-ornament" aria-hidden>
               <span className="login-ornament-line" />
@@ -262,7 +256,7 @@ export function LoginScreen() {
         <div className="login-footer-row">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/mascote-acenando.svg"
+            src="/brand/mascote-dourado.png"
             alt=""
             className="login-mascot"
             loading="lazy"

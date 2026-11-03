@@ -51,31 +51,31 @@ const TIER = {
   ouro: {
     label: "TOP",
     name: "Top",
-    light: "#e6cf96",
-    main: "#c9a961",
+    light: "#E6D5B3",
+    main: "#C6A15B",
     dark: "#a8884a",
     sentence: "Atende aos requisitos padrão do Achadinhos do Condomínio.",
   },
   black: {
     label: "BLACK",
     name: "Black",
-    light: "#c9a961",
+    light: "#C6A15B",
     main: "#3a3320",
-    dark: "#1a1410",
+    dark: "#071735",
     sentence:
       "Aprovado em avaliação rigorosa, conduzida diretamente pela equipe especializada do Achadinhos do Condomínio.",
   },
 } as const;
 
 const C = {
-  bg: "#fbf8f2",
-  navy: "#0b1b3b",
-  navy2: "#11254e",
-  gold: "#c9a961",
-  goldLight: "#e6cf96",
-  ink: "#1a1410",
-  amber: "#e97a2d",
-  cream: "#f3ecdc",
+  bg: "#F4F6F8",
+  navy: "#071735",
+  navy2: "#102B50",
+  gold: "#C6A15B",
+  goldLight: "#E6D5B3",
+  ink: "#071735",
+  amber: "#C6A15B",
+  cream: "#F4F6F8",
 };
 
 const s = StyleSheet.create({

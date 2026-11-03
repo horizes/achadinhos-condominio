@@ -32,7 +32,7 @@ export function SignaturePad({ onChange, height = 160 }: SignaturePadProps) {
     ctx.lineWidth = 2.4;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-    ctx.strokeStyle = "#11254e";
+    ctx.strokeStyle = "#102B50";
   }, []);
 
   function pos(e: PointerEvent<HTMLCanvasElement>) {

@@ -1,5 +1,7 @@
 "use client";
 
+import { BrandSignature } from "@/components/brand-signature";
+
 import { useState } from "react";
 import Link from "next/link";
 import { Icon } from "@/components/icons";
@@ -49,15 +51,7 @@ export function CadastroScreen() {
         <div className="login-card login-card--wide login-card--3">
           <div className="login-frame">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/mobile-logo-achadinhos-do-condominio.png?v=3"
-              alt="Achadinhos do Condomínio"
-              className="login-logo"
-              width={760}
-              height={176}
-              fetchPriority="high"
-              decoding="async"
-            />
+            <BrandSignature className="login-logo" tone="ink" />
 
             <div className="login-ornament" aria-hidden>
               <span className="login-ornament-line" />

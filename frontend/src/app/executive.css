@@ -1,0 +1,181 @@
+/* Executive Navy & Gold — shared by the marketplace, account and admin screens.
+   Keep the original layout, visibility rules and interactive states intact. */
+:root {
+  --font-mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+  --shadow-card: 0 2px 12px rgb(7 23 53 / 5%);
+  --shadow-elev: 0 12px 32px rgb(7 23 53 / 10%);
+}
+
+body { line-height: 1.55; }
+h1, h2, h3 { font-weight: 700; letter-spacing: -.025em; }
+button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible,
+textarea:focus-visible, select:focus-visible, [tabindex="0"]:focus-visible {
+  outline: 2px solid #C6A15B;
+  outline-offset: 4px;
+}
+
+.brand-signature.brand-signature {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: max-content;
+  max-width: 100%;
+  height: auto;
+  flex-shrink: 0;
+  color: #071735;
+  text-decoration: none;
+}
+.brand-signature--light.brand-signature { color: #FFFFFF; }
+.brand-signature-wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  line-height: 1.1;
+}
+.brand-signature-wordmark strong {
+  font-family: var(--font-ui);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: .025em;
+  white-space: nowrap;
+}
+.brand-signature-wordmark > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .2em;
+  color: #C6A15B;
+  margin-top: 9px;
+  white-space: nowrap;
+}
+.brand-signature-wordmark > span::before,
+.brand-signature-wordmark > span::after {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: #C6A15B;
+}
+.brand-signature-mascot {
+  display: block;
+  width: 96px;
+  height: 108px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.header, .site-footer, .screen-header, .shop-header, .prof-header,
+.admin-header, .agd-hero { background: #071735; }
+.header::before, .header::after { display: none; }
+.header { border-radius: 0 0 20px 20px; border-bottom: 1px solid rgb(198 161 91 / 45%); }
+.header-top { margin-bottom: 18px; }
+.greeting-q { font-weight: 700; letter-spacing: -.035em; line-height: 1.2; }
+.greeting-q em { font-style: normal; color: #C6A15B; }
+.section-title h2 { font-weight: 750; }
+.section-title .see-all { color: #52647A; }
+.search, .top-nav-search { border-radius: 9px; }
+.cat-icon { background: #EDF1F5; color: #102B50; border: 1px solid #DDE3EB; }
+.provider, .side-card, .seller-product-card, .auth-card, .cert-tier-card {
+  box-shadow: var(--shadow-card);
+  border-color: #DDE3EB;
+}
+.provider-name, .product-name, .section-title h2 { color: #071735; }
+.hero { background: linear-gradient(120deg, #071735, #102B50); }
+.hero-title { font-weight: 700; font-style: normal; }
+.hero::before { opacity: .3; }
+.hero-cta, .install-cta, .cert-btn, .login-cta, .auth-btn.primary,
+.top-nav-install, .promo-cta {
+  background: #C6A15B;
+  color: #071735;
+  border-radius: 8px;
+  box-shadow: none;
+}
+.cert-btn.ghost { background: transparent; color: #102B50; }
+.site-footer { border-top: 1px solid rgb(198 161 91 / 35%); }
+.site-footer .brand-signature { justify-content: flex-start; }
+.site-footer .brand-signature-mascot { width: 70px; height: 80px; }
+.site-footer-tagline { max-width: 340px; }
+.login-page, .auth-shell { background: #F4F6F8; }
+.login-card, .auth-shell-inner { border-radius: 14px; }
+.login-frame { border-radius: 8px; border-color: rgb(198 161 91 / 35%); }
+.login-title, .auth-title { font-weight: 700; line-height: 1.15; }
+.login-title em, .auth-title em { font-style: normal; color: #102B50; }
+.login-logo.brand-signature { margin-bottom: 22px; }
+.login-mascot { width: 66px; height: 74px; object-fit: contain; }
+.auth-brand-logo.brand-signature, .ficha-logo.brand-signature { margin-inline: auto; }
+.agd-brand-logo.brand-signature .brand-signature-mascot { width: 72px; height: 82px; }
+
+@media (min-width: 768px) {
+  .top-nav, .top-nav.scrolled {
+    height: 124px;
+    background: #071735;
+    border-bottom: 1px solid rgb(198 161 91 / 50%);
+    color: #FFFFFF;
+    backdrop-filter: none;
+  }
+  .top-nav-inner {
+    grid-template-columns: auto minmax(120px, 1fr) auto;
+    gap: 24px;
+    max-width: 1440px;
+  }
+  .top-nav-link, .top-nav-account-trigger { color: #FFFFFF; }
+  .top-nav-link:hover { color: #C6A15B; }
+  .top-nav-search {
+    background: #102B50;
+    border-color: rgb(255 255 255 / 16%);
+    color: #FFFFFF;
+    min-width: 0;
+  }
+  .top-nav-search-ph { color: #DDE3EB; }
+  .top-nav-search-icon, .top-nav-search-filter { color: #C6A15B; }
+  .top-nav-cta { background: #C6A15B; color: #071735; border-radius: 7px; }
+  .top-nav-cta:hover { background: #D6BA85; }
+  .top-nav-divider { background: rgb(255 255 255 / 20%); }
+  .top-nav-account-menu { color: #071735; }
+  .web-sidebar { top: 148px; }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .top-nav-inner { padding-inline: 20px; gap: 12px; }
+  .top-nav .brand-signature { gap: 6px; }
+  .top-nav .brand-signature-wordmark strong { font-size: 17px; }
+  .top-nav .brand-signature-wordmark > span { font-size: 7px; letter-spacing: .1em; }
+  .top-nav .brand-signature-wordmark > span::before,
+  .top-nav .brand-signature-wordmark > span::after { width: 9px; }
+  .top-nav .brand-signature-mascot { width: 60px; height: 76px; }
+  .top-nav-actions { gap: 10px; }
+  .top-nav-link { font-size: 12px; }
+}
+@media (max-width: 767px) {
+  .brand-signature-wordmark strong { font-size: 21px; }
+  .brand-signature-mascot { width: 84px; height: 96px; }
+  .brand-signature { gap: 12px; }
+  .header { padding: calc(24px + env(safe-area-inset-top, 0px)) 22px 26px; }
+  .greeting-q { font-size: 31px; }
+  .login-frame { padding-inline: 18px; }
+}
+@media (max-width: 360px) {
+  .brand-signature-wordmark strong { font-size: 18px; }
+  .brand-signature-wordmark > span { font-size: 8px; letter-spacing: .12em; }
+  .brand-signature-wordmark > span::before,
+  .brand-signature-wordmark > span::after { width: 12px; }
+  .brand-signature-mascot { width: 68px; height: 80px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.plan-official-logo { display: block; width: 136px; height: 136px; object-fit: contain; margin: 0 auto 20px; }
+.admin-header-mascot { width: 72px; height: 82px; object-fit: contain; flex-shrink: 0; }
+.top-nav-link:hover { background: #102B50; }
+@media (max-width: 360px) { .site-footer .brand-signature-wordmark strong { font-size: 17px; } }
+@media (min-width:768px) and (max-width:1199px) {.top-nav,.top-nav.scrolled{height:auto;min-height:148px}.top-nav-inner{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;gap:4px 12px;padding-block:6px 14px}.top-nav-search{grid-column:1 / -1;grid-row:2;width:100%;max-width:none;min-height:40px}.top-nav-actions{grid-column:2;grid-row:1}.web-sidebar{top:174px}}
+.greeting-q,.section-title h2,.lead-path-title,.hero-title,.cert-title,.cert-h2,.admin-header-title{font-style:normal}

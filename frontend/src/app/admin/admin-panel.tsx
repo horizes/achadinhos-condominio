@@ -85,7 +85,7 @@ export function AdminPanel() {
     <main className="admin-shell">
       <header className="admin-header">
         <div className="admin-header-brand">
-          <div className="admin-header-mark">A</div>
+          <img className="admin-header-mascot" src="/brand/mascote-dourado.png" alt="Mascote dourado Achadinhos" width={72} height={82} />
           <div>
             <div className="admin-header-title">Painel Admin</div>
             <div className="admin-header-sub">Achadinhos do Condomínio</div>

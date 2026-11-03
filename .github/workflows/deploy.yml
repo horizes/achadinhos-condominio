@@ -6,11 +6,11 @@ name: Build & Deploy
 
 on:
   push:
-    branches: [master]
+    branches: [master, main]
   workflow_dispatch:
 
 env:
-  IMAGE: ghcr.io/oyaga/achadinhos
+  IMAGE: ghcr.io/${{ github.repository }}
 
 jobs:
   build-and-deploy:
@@ -47,6 +47,7 @@ jobs:
       # O webhook costuma não responder a tempo (e às vezes nem dispara o redeploy),
       # então o deploy é finalizado rodando /root/achadinhos-redeploy.sh no servidor.
       - name: Disparar redeploy no Portainer (best-effort)
+        if: github.event_name == 'workflow_dispatch'
         env:
           WEBHOOK: ${{ secrets.PORTAINER_WEBHOOK }}
         run: |

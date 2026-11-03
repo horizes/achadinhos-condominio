@@ -1,5 +1,7 @@
 "use client";
 
+import { BrandSignature } from "@/components/brand-signature";
+
 import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import {
@@ -126,11 +128,7 @@ export function FichaFormScreen() {
 
         <div className="ficha-logo-wrap">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logo-achadinhos-do-condominio.png"
-            alt="Achadinhos do Condomínio"
-            className="ficha-logo"
-          />
+          <BrandSignature className="ficha-logo" tone="ink" />
           <span className="ficha-logo-cap">Ficha de cadastro</span>
         </div>
 

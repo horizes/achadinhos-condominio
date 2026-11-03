@@ -7,9 +7,13 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#FBF8F2",
-  "theme_color": "#0B1B3B",
-  "categories": ["business", "lifestyle", "productivity"],
+  "background_color": "#F4F6F8",
+  "theme_color": "#071735",
+  "categories": [
+    "business",
+    "lifestyle",
+    "productivity"
+  ],
   "icons": [
     {
       "src": "/icon-logo-achadinhos-do-condominio-192.png",
