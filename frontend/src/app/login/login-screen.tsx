@@ -1,5 +1,7 @@
 "use client";
 
+import { publicAsset } from "@/lib/site-path";
+
 import { BrandSignature } from "@/components/brand-signature";
 
 import { useEffect, useState, type FormEvent } from "react";
@@ -256,7 +258,7 @@ export function LoginScreen() {
         <div className="login-footer-row">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/mascote-dourado.png"
+            src={publicAsset("/brand/mascote-dourado.png")}
             alt=""
             className="login-mascot"
             loading="lazy"

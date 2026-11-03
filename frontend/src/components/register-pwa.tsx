@@ -15,6 +15,7 @@ declare global {
 
 export function RegisterPWA() {
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_PREVIEW === "true") return;
     if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
 
     if (process.env.NODE_ENV !== "production") {

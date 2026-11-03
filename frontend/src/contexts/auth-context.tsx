@@ -1,5 +1,7 @@
 "use client";
 
+import { publicAsset } from "@/lib/site-path";
+
 import {
   createContext,
   useCallback,
@@ -134,7 +136,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Navegação "dura" para a home: garante estado de visitante limpo em toda a
     // app (o Perfil é overlay por estado interno, não muda com a URL), sem que o
     // usuário precise dar refresh manual.
-    if (typeof window !== "undefined") window.location.assign("/");
+    if (typeof window !== "undefined") window.location.assign(publicAsset("/"));
   }, [reset]);
 
   const updateUser = useCallback((patch: Partial<User>) => {

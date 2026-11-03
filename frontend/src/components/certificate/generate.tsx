@@ -1,3 +1,4 @@
+import { publicAsset } from "@/lib/site-path";
 // Geração client-side do PDF do certificado. Este módulo importa o
 // @react-pdf/renderer e o qrcode no topo, então é SEMPRE carregado via
 // `import()` dinâmico (a partir da seção do admin) — assim essas libs ficam
@@ -18,7 +19,7 @@ function formatDateBR(iso: string): string {
 // URL pública da página de verificação (lida pelo QR code). Same-origin.
 export function verifyUrl(code: string): string {
   const origin = typeof window !== "undefined" ? window.location.origin : "";
-  return `${origin}/verificar/?c=${encodeURIComponent(code)}`;
+  return `${origin}${publicAsset("/verificar/")}?c=${encodeURIComponent(code)}`;
 }
 
 // Converte uma URL de imagem (ex.: assinatura salva em /uploads) num data URL,
@@ -47,7 +48,7 @@ async function imageUrlToDataUrl(url: string): Promise<string | null> {
 // Retorna null em caso de falha — o PDF sai sem a imagem, nunca quebra.
 async function publicImageToDataUrl(path: string): Promise<string | null> {
   try {
-    const res = await fetch(path);
+    const res = await fetch(publicAsset(path));
     if (!res.ok) return null;
     const blob = await res.blob();
     if (!/^image\/(png|jpe?g)$/i.test(blob.type)) return null;

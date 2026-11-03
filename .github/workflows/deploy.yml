@@ -5,8 +5,6 @@ name: Build & Deploy
 # finalizado manualmente com /root/achadinhos-redeploy.sh no servidor.
 
 on:
-  push:
-    branches: [master, main]
   workflow_dispatch:
 
 env:

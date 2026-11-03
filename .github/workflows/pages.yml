@@ -1,0 +1,55 @@
+name: Preview no GitHub Pages
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      NEXT_PUBLIC_PREVIEW: "true"
+      NEXT_PUBLIC_BASE_PATH: /achadinhos-condominio
+      NEXT_PUBLIC_SITE_URL: https://horizes.github.io/achadinhos-condominio/
+      NEXT_PUBLIC_API_URL: https://horizes.github.io/achadinhos-condominio/api/v1
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/configure-pages@v5
+      - run: npm ci
+      - run: npm run build
+      - run: node scripts/prepare-pages.mjs
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: frontend/out
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar prévia
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,3 +1,4 @@
+import { publicAsset } from "@/lib/site-path";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { RegisterPWA } from "@/components/register-pwa";
@@ -9,6 +10,7 @@ import {
 } from "@/components/seo/json-ld";
 import "./globals.css";
 import "./executive.css";
+import { PreviewBanner } from "@/components/preview-banner";
 
 const manrope = localFont({
   src: "../../public/fonts/Manrope-variable.ttf",
@@ -18,7 +20,7 @@ const manrope = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://achadinhoscondominio.com.br"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://achadinhoscondominio.com.br"),
   title: {
     default: "Achadinhos do Condomínio",
     template: "%s · Achadinhos do Condomínio",
@@ -26,7 +28,7 @@ export const metadata: Metadata = {
   description:
     "Marketplace que conecta síndicos a prestadores de serviço de condomínio. Orçamento em 1 toque, prestadores verificados, shopping com produtos para o condomínio.",
   applicationName: "Achadinhos do Condomínio",
-  manifest: "/manifest.webmanifest",
+  manifest: publicAsset("/manifest.webmanifest"),
   alternates: {
     canonical: "/",
   },
@@ -40,14 +42,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/brand/app-icon.svg", sizes: "any", type: "image/svg+xml" },
-      { url: "/icon-logo-achadinhos-do-condominio-192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-logo-achadinhos-do-condominio.png", sizes: "512x512", type: "image/png" },
+      { url: publicAsset("/brand/app-icon.svg"), sizes: "any", type: "image/svg+xml" },
+      { url: publicAsset("/icon-logo-achadinhos-do-condominio-192.png"), sizes: "192x192", type: "image/png" },
+      { url: publicAsset("/icon-logo-achadinhos-do-condominio.png"), sizes: "512x512", type: "image/png" },
     ],
     apple: [
-      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: publicAsset("/icons/apple-touch-icon.png"), sizes: "180x180", type: "image/png" },
     ],
-    shortcut: "/brand/app-icon.svg",
+    shortcut: publicAsset("/brand/app-icon.svg"),
   },
   openGraph: {
     title: "Achadinhos do Condomínio",
@@ -59,7 +61,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/icon-logo-achadinhos-do-condominio.png",
+        url: publicAsset("/icon-logo-achadinhos-do-condominio.png"),
         width: 512,
         height: 512,
         alt: "Achadinhos do Condomínio",
@@ -71,11 +73,11 @@ export const metadata: Metadata = {
     title: "Achadinhos do Condomínio",
     description:
       "Marketplace que conecta síndicos a prestadores de serviço e fornecedores para condomínios.",
-    images: ["/icon-logo-achadinhos-do-condominio.png"],
+    images: [publicAsset("/icon-logo-achadinhos-do-condominio.png")],
   },
   robots: {
-    index: true,
-    follow: true,
+    index: process.env.NEXT_PUBLIC_PREVIEW !== "true",
+    follow: process.env.NEXT_PUBLIC_PREVIEW !== "true",
   },
 };
 
@@ -97,6 +99,7 @@ export default function RootLayout({
       className={`${manrope.variable}`}
     >
       <body>
+        <PreviewBanner />
         <JsonLd data={[organizationSchema, websiteSchema]} />
         <AuthProvider>
           <RegisterPWA />

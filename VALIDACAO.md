@@ -17,3 +17,7 @@
 6. Instalar/atualizar o PWA em Android/iOS e verificar retorno à home/offline.
 
 Relatório JSON e prévias locais acompanham o pacote de entrega. O export usado nos testes contém dados fictícios e endereço de API local e não deve ser publicado como produção; gere o build com sua configuração real.
+
+## GitHub Pages
+
+A prévia usa `NEXT_PUBLIC_PREVIEW=true`, dados fictícios locais e API de demonstração. O build de produção continua usando o backend original quando essa variável não está ativa. Conta pública de demonstração: `demo@achadinhos.test`, senha `demonstracao`. As operações de cadastro, reservas, envios e pagamentos reais ficam indisponíveis nessa prévia. O registro do service worker foi desativado apenas no build de testes para não manter versões antigas em cache.

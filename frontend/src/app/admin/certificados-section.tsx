@@ -1,5 +1,7 @@
 "use client";
 
+import { publicAsset } from "@/lib/site-path";
+
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import {
   adminApi,
@@ -231,7 +233,7 @@ export function CertificadosSection() {
   }
 
   function handleVerify(cert: ApiCertificate) {
-    window.open(`/verificar/?c=${encodeURIComponent(cert.code)}`, "_blank", "noopener");
+    window.open(publicAsset(`/verificar/?c=${encodeURIComponent(cert.code)}`), "_blank", "noopener");
   }
 
   async function handleToggleRevoke(cert: ApiCertificate) {

@@ -35,3 +35,11 @@ O frontend é exportado e incorporado ao servidor Go no build Docker. A aplicaç
 O workflow publica no registro de imagens da conta do próprio repositório. Redeploy via Portainer só ocorre por disparo manual e com o segredo configurado. Não inclui credenciais de produção.
 
 Validação e limites em [VALIDACAO.md](VALIDACAO.md).
+
+## Prévia no GitHub Pages
+
+Endereço: https://horizes.github.io/achadinhos-condominio/
+
+A prévia é estática e usa dados fictícios. Para explorar o painel: `demo@achadinhos.test`, senha `demonstracao`. Não use dados ou senhas reais. Ações que exigem banco, envio de mensagens, reservas ou pagamentos não são executadas.
+
+O workflow `.github/workflows/pages.yml` compila com `NEXT_PUBLIC_PREVIEW=true` e `NEXT_PUBLIC_BASE_PATH=/achadinhos-condominio`. Essas opções são exclusivas da prévia; o build normal mantém a API Go original.

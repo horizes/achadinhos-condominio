@@ -187,7 +187,12 @@ async function rawRequest<T>(
 
   let res: Response;
   try {
-    res = await fetch(url, init);
+    if (process.env.NEXT_PUBLIC_PREVIEW === "true") {
+      const { previewResponse } = await import("./preview-data");
+      res = await previewResponse(path, { method, body }, getAccessToken());
+    } else {
+      res = await fetch(url, init);
+    }
   } catch (err) {
     throw new ApiError({
       status: 0,
