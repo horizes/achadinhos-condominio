@@ -21,9 +21,10 @@ RUN bun run build
 
 # generateStaticParams engole erros e cai num placeholder `_unavailable` — se
 # a API de produção estiver fora/bloqueando o build, o export sai sem nenhuma
-# página de empresa/produto e sem URLs no sitemap, silenciosamente. Falha alto.
-RUN grep -q "/empresa/" out/sitemap.xml || \
-    (echo "ERRO: export sem paginas de entidade — API inacessivel no build?" && exit 1)
+# página de empresa/produto e sem URLs no sitemap. Em vez de exigir empresas
+# no sitemap (falha com banco zerado), verifica que a API responde
+# /categories com a lista canônica. Falha alto quando a API está fora.
+RUN bun -e 'const r = await fetch(process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, "") + "/categories"); if (!r.ok) { console.error("ERRO: API inacessivel no build — HTTP " + r.status); process.exit(1); } const j = await r.json(); if (!JSON.stringify(j).includes("manutencao")) { console.error("ERRO: catalogo de categorias vazio/inesperado no build"); process.exit(1); }'
 
 # After `output: "export"`, the bundle lives in /app/out
 
