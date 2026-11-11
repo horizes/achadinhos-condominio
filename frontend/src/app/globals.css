@@ -13399,3 +13399,89 @@ button.auth-tertiary-link {
   object-fit: cover;
   border-radius: inherit;
 }
+
+/* ── Próximos eventos: cards de data no estilo da agenda (somente dias com eventos) ── */
+.ewd-agenda-dates,
+.ew-agenda-dates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 2px 0 4px;
+}
+.ewd-agenda-date {
+  padding: 12px 10px 10px;
+  min-width: 58px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid rgba(7, 23, 53, 0.14);
+  color: #071735;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  box-shadow: 0 8px 18px rgba(7, 23, 53, 0.06);
+}
+.ewd-agenda-date strong {
+  font-size: 24px;
+  line-height: 1.1;
+  font-weight: 680;
+  font-family: var(--font-display);
+}
+.ewd-agenda-date span {
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #C6A15B;
+}
+.ewd-agenda-date small {
+  font-size: 9px;
+  line-height: 1.1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(7, 23, 53, 0.6);
+}
+.ewd-agenda-date:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(7, 23, 53, 0.12);
+}
+.ewd-agenda-date.is-today {
+  background: #071735;
+  border-color: #071735;
+  color: #ffffff;
+  box-shadow: inset 0 0 0 2px #C6A15B;
+}
+.ewd-agenda-date.is-today small { color: rgba(255, 255, 255, 0.72); }
+
+/* Mobile: o slide da agenda é sobre fundo navy, então os cards ficam claros sobre o fundo escuro. */
+.ew-agenda-dates {
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+}
+.ew-agenda-dates .ewd-agenda-date {
+  min-width: 52px;
+  padding: 10px 8px 8px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  box-shadow: none;
+}
+.ew-agenda-dates .ewd-agenda-date strong { font-size: 19px; }
+.ew-agenda-dates .ewd-agenda-date span { color: var(--gold-300); }
+.ew-agenda-dates .ewd-agenda-date small { color: rgba(255, 255, 255, 0.62); }
+.ew-agenda-dates .ewd-agenda-date:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+.ew-agenda-dates .ewd-agenda-date.is-today {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #071735;
+  box-shadow: inset 0 0 0 2px #C6A15B;
+}
+.ew-agenda-dates .ewd-agenda-date.is-today small { color: rgba(7, 23, 53, 0.65); }

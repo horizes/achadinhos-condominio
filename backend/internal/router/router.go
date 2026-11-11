@@ -57,6 +57,7 @@ func New(cfg *config.Config, db *gorm.DB) *gin.Engine {
 	bnH := handlers.NewBannerHandler(db)
 	certH := handlers.NewCertificateHandler(db)
 	blogH := handlers.NewBlogHandler(db)
+	indicaH := handlers.NewIndicaIntegrationHandler(db, cfg.IndicaWebhookSecret)
 	agendaSvc := agenda.NewService(
 		db,
 		cfg.GoogleOAuthClientID,
@@ -107,6 +108,10 @@ func New(cfg *config.Config, db *gorm.DB) *gin.Engine {
 
 	// Public certificate verification (acessada pelo QR code).
 	v1.GET("/certificates/:code", certH.GetByCode)
+
+	// Integração Achadinhos Indica ⇄ marketplace: contratos finalizados no
+	// Indica viram cadastros em sellers (autenticada por segredo compartilhado).
+	v1.POST("/integracoes/indica/finalizado", indicaH.Finalizado)
 
 	// Public agenda (booking estilo Calendly). O callback OAuth é público por
 	// natureza (redirect do Google) e valida um state assinado.

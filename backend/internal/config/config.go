@@ -46,6 +46,11 @@ type Config struct {
 	// Secret that lets a request skip the anti-bot checks via the header
 	// "X-Antibot-Bypass" (used for our own headless inspection of production).
 	AntibotBypassToken string
+
+	// Secret compartilhado para o webhook de contratos finalizados do
+	// Achadinhos Indica (HMAC-SHA256 no cabeçalho X-Indica-Signature).
+	// Quando vazio a rota /integracoes/indica/finalizado responde 503.
+	IndicaWebhookSecret string
 }
 
 // Load reads .env (if present) and environment variables, returning a Config.
@@ -75,6 +80,8 @@ func Load() (*Config, error) {
 		GoogleOAuthClientSecret: getEnv("GOOGLE_OAUTH_CLIENT_SECRET", ""),
 
 		AntibotBypassToken: getEnv("ANTIBOT_BYPASS_TOKEN", ""),
+
+		IndicaWebhookSecret: getEnv("INDICA_WEBHOOK_SECRET", ""),
 	}
 
 	accessTTL, err := time.ParseDuration(getEnv("JWT_ACCESS_TTL", "15m"))

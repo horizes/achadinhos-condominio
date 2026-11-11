@@ -298,7 +298,7 @@ function DesktopSlide({
         </div>
         <div className="ewd-content">
           <div className="ewd-kicker">Bem-vindo ao seu condomínio</div>
-          <h3 className="ewd-title">Tudo que o condomínio precisa, num só lugar</h3>
+          <h3 className="ewd-title">Aqui você não arrisca, você escolhe com segurança.</h3>
           <p className="ewd-desc">
             Serviços, empresas e produtos de confiança — todos verificados pela
             Certificação Achadinhos.
@@ -413,6 +413,45 @@ function DesktopSlide({
 }
 
 // Painel lateral: calendário navegável por mês + próximos eventos.
+// Chips de data no estilo da agenda pública (dia grande, mês e dia da semana
+// em destaque), mostrando apenas os dias com eventos próximos.
+function agendaDateChips(upcoming: ApiEvent[], today: string, limit = 4) {
+  const seen = new Set<string>();
+  const chips: ApiEvent[] = [];
+  for (const ev of upcoming) {
+    const d = (ev.event_date || "").slice(0, 10);
+    if (!d || seen.has(d)) continue;
+    seen.add(d);
+    chips.push(ev);
+    if (chips.length >= limit) break;
+  }
+  return chips;
+}
+
+function agendaDateParts(ymd: string) {
+  const value = new Date(ymd + "T12:00:00-03:00");
+  const day = ymd.slice(8, 10);
+  const month = new Intl.DateTimeFormat("pt-BR", { month: "short", timeZone: "America/Sao_Paulo" }).format(value).replace(".", "").toUpperCase();
+  const weekday = new Intl.DateTimeFormat("pt-BR", { weekday: "short", timeZone: "America/Sao_Paulo" }).format(value).replace(".", "").toUpperCase();
+  return { day, month, weekday };
+}
+
+function agendaDateChip(ev: ApiEvent, today: string) {
+  const ymd = (ev.event_date || "").slice(0, 10);
+  const { day, month, weekday } = agendaDateParts(ymd);
+  return (
+    <div
+      key={ymd}
+      className={cn("ewd-agenda-date", ymd === today && "is-today")}
+      title={ev.title}
+    >
+      <strong>{day}</strong>
+      <span>{month}</span>
+      <small>{weekday}</small>
+    </div>
+  );
+}
+
 function DesktopCalendar({
   events,
   upcoming,
@@ -424,38 +463,7 @@ function DesktopCalendar({
   today: string;
   onSeeAll: () => void;
 }) {
-  const now = new Date();
-  const [view, setView] = useState({ year: now.getFullYear(), month: now.getMonth() });
-
-  function shiftMonth(delta: number) {
-    setView((prev) => {
-      const d = new Date(prev.year, prev.month + delta, 1);
-      return { year: d.getFullYear(), month: d.getMonth() };
-    });
-  }
-
-  const monthPrefix = `${view.year}-${String(view.month + 1).padStart(2, "0")}-`;
-
-  const eventDays = useMemo(() => {
-    const days = new Set<number>();
-    for (const ev of events) {
-      const ymd = ev.event_date.slice(0, 10);
-      if (ymd.startsWith(monthPrefix)) days.add(Number(ymd.slice(8, 10)));
-    }
-    return days;
-  }, [events, monthPrefix]);
-
-  const firstWeekday = new Date(view.year, view.month, 1).getDay();
-  const daysInMonth = new Date(view.year, view.month + 1, 0).getDate();
-  const todayDay = today.startsWith(monthPrefix) ? Number(today.slice(8, 10)) : null;
-
-  const monthName = new Date(view.year, view.month, 1).toLocaleDateString("pt-BR", { month: "long" });
-  const monthLabel = `${monthName.charAt(0).toUpperCase()}${monthName.slice(1)} ${view.year}`;
-
-  const cells: Array<number | null> = [
-    ...Array.from({ length: firstWeekday }, () => null),
-    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
-  ];
+  const chips = agendaDateChips(upcoming, today);
 
   return (
     <div
@@ -471,58 +479,20 @@ function DesktopCalendar({
       }}
     >
       <div className="ewd-cal-head">
-        <div className="ewd-cal-month">{monthLabel}</div>
-        <div className="ewd-cal-arrows">
-          <button
-            type="button"
-            className="ewd-cal-arrow"
-            onClick={(e) => { e.stopPropagation(); shiftMonth(-1); }}
-            aria-label="Mês anterior"
-          >
-            <Icon.ChevLeft size={14} />
-          </button>
-          <button
-            type="button"
-            className="ewd-cal-arrow"
-            onClick={(e) => { e.stopPropagation(); shiftMonth(1); }}
-            aria-label="Próximo mês"
-          >
-            <Icon.ChevRight size={14} />
-          </button>
-        </div>
+        <div className="ewd-cal-month">Próximos eventos</div>
       </div>
 
-      <div className="ewd-cal-wds" aria-hidden="true">
-        {WEEKDAYS.map((w, i) => (
-          <span key={i}>{w}</span>
-        ))}
-      </div>
-      <div className="ewd-cal-grid" aria-hidden="true">
-        {cells.map((d, i) =>
-          d === null ? (
-            <span key={`e${i}`} />
-          ) : (
-            <span
-              key={d}
-              className={cn(
-                "ewd-cal-day",
-                d === todayDay && "today",
-                eventDays.has(d) && "has-event",
-              )}
-            >
-              {d}
-              {eventDays.has(d) && <i className="ewd-cal-dot" />}
-            </span>
-          ),
-        )}
-      </div>
-
-      <div className="ewd-cal-divider" aria-hidden="true" />
-      <div className="ewd-cal-label">Próximos eventos</div>
-
-      {upcoming.length === 0 ? (
+      {chips.length === 0 ? (
         <div className="ewd-cal-empty">Nenhum evento agendado.</div>
       ) : (
+        <div className="ewd-agenda-dates">
+          {chips.map((ev) => agendaDateChip(ev, today))}
+        </div>
+      )}
+
+      {chips.length === 0 ? null : <div className="ewd-cal-divider" aria-hidden="true" />}
+
+      {upcoming.length === 0 ? null : (
         <div className="ewd-cal-next">
           {upcoming.slice(0, 3).map((ev, i) => {
             const ymd = ev.event_date.slice(0, 10);
@@ -683,57 +653,22 @@ function CalendarSlideMobile({
   today: string;
   onSeeAll: () => void;
 }) {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth(); // 0-based
-
-  const eventDays = useMemo(() => {
-    const days = new Set<number>();
-    const prefix = `${year}-${String(month + 1).padStart(2, "0")}-`;
-    for (const ev of events) {
-      const ymd = ev.event_date.slice(0, 10);
-      if (ymd.startsWith(prefix)) days.add(Number(ymd.slice(8, 10)));
-    }
-    return days;
-  }, [events, year, month]);
-
-  const firstWeekday = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const todayDay = Number(today.slice(8, 10));
-  const monthLabel = now.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
-
-  const cells: Array<number | null> = [
-    ...Array.from({ length: firstWeekday }, () => null),
-    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
-  ];
+  const chips = agendaDateChips(upcoming, today);
 
   return (
     <div className="events-widget-slide events-widget-cal" onClick={onSeeAll} role="button" tabIndex={0}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSeeAll(); } }}>
       <div className="ew-cal">
-        <div className="ew-cal-month">{monthLabel}</div>
-        <div className="ew-cal-grid" aria-hidden="true">
-          {WEEKDAYS.map((w, i) => (
-            <span key={`w${i}`} className="ew-cal-wd">{w}</span>
-          ))}
-          {cells.map((d, i) =>
-            d === null ? (
-              <span key={`e${i}`} />
-            ) : (
-              <span
-                key={d}
-                className={cn(
-                  "ew-cal-day",
-                  d === todayDay && "today",
-                  eventDays.has(d) && "has-event",
-                )}
-              >
-                {d}
-              </span>
-            ),
-          )}
-        </div>
+        <div className="ew-cal-month">Próximos eventos</div>
+        {chips.length === 0 ? (
+          <div className="ew-next-empty">Nenhum evento agendado.</div>
+        ) : (
+          <div className="ew-agenda-dates">
+            {chips.map((ev) => agendaDateChip(ev, today))}
+          </div>
+        )}
       </div>
+      {chips.length === 0 ? null : (
       <div className="ew-next">
         <div className="ew-next-title">Próximos eventos</div>
         {upcoming.length === 0 ? (
@@ -748,6 +683,7 @@ function CalendarSlideMobile({
           ))
         )}
       </div>
+      )}
     </div>
   );
 }
@@ -758,7 +694,7 @@ function WelcomeSlideMobile({ onExplore }: { onExplore?: () => void }) {
   return (
     <div className="events-widget-slide ew-welcome">
       <div className="ew-welcome-kicker">Bem-vindo ao seu condomínio</div>
-      <div className="ew-welcome-title">Tudo que o condomínio precisa, num só lugar</div>
+      <div className="ew-welcome-title">Aqui você não arrisca, você escolhe com segurança.</div>
       <p className="ew-welcome-desc">
         Serviços e empresas verificadas pela Certificação Achadinhos.
       </p>
