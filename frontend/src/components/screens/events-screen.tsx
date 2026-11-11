@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import { eventsApi, type ApiEvent } from "@/lib/api";
 import { Icon } from "../icons";
 import { cn } from "@/lib/utils";
@@ -178,19 +177,6 @@ export function EventsScreen({ onBack }: EventsScreenProps) {
           </div>
         )}
 
-        {/* CTA: agendar reunião com a equipe (página de agendamento) */}
-        <Link href="/agendar/ligia" className="cal-agenda-cta">
-          <span className="cal-agenda-cta-icon" aria-hidden="true">
-            <Icon.Clock size={22} />
-          </span>
-          <span className="cal-agenda-cta-text">
-            <strong>Quer falar com a nossa equipe?</strong>
-            Marque uma reunião online no melhor horário pra você.
-          </span>
-          <span className="cal-agenda-cta-btn">
-            Agendar horário <Icon.ChevRight size={15} />
-          </span>
-        </Link>
       </div>
     </div>
   );

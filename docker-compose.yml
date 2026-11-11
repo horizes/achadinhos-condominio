@@ -42,9 +42,6 @@ services:
       # E-mail transacional (Resend). Vazios desligam o envio de boas-vindas.
       RESEND_API_KEY: ${RESEND_API_KEY:-}
       MAIL_FROM: ${MAIL_FROM:-}
-      # Agendamento (Google Calendar + Meet). Vazios desligam a agenda.
-      GOOGLE_OAUTH_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID:-}
-      GOOGLE_OAUTH_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET:-}
       # Anti-bot: header "X-Antibot-Bypass: <token>" pula o bloqueio de UA e o
       # rate limit (para inspeção headless própria). Vazio = sem bypass.
       ANTIBOT_BYPASS_TOKEN: ${ANTIBOT_BYPASS_TOKEN:-}
@@ -57,9 +54,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-public"
-      # O host ligia.* serve a página de agendamento (rewrite no binário Go;
-      # qualquer subdomínio cujo rótulo seja um slug de agenda funciona).
-      - "traefik.http.routers.achadinhos.rule=Host(`achadinhoscondominio.com.br`) || Host(`ligia.achadinhoscondominio.com.br`)"
+      # Roteamento para o domínio oficial (com www opcional).
+      - "traefik.http.routers.achadinhos.rule=Host(`achadinhoscondominio.com.br`)"
       - "traefik.http.routers.achadinhos.entrypoints=websecure"
       - "traefik.http.routers.achadinhos.tls=true"
       - "traefik.http.routers.achadinhos.tls.certresolver=cloudflare"

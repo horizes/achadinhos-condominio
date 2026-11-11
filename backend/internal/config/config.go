@@ -37,12 +37,6 @@ type Config struct {
 	ResendAPIKey string
 	MailFrom     string
 
-	// Google OAuth client used by the agenda (booking) feature. When empty the
-	// agenda endpoints answer with "google_not_configured". The OAuth redirect
-	// URI is {AppBaseURL}/api/v1/agenda/google/callback.
-	GoogleOAuthClientID     string
-	GoogleOAuthClientSecret string
-
 	// Secret that lets a request skip the anti-bot checks via the header
 	// "X-Antibot-Bypass" (used for our own headless inspection of production).
 	AntibotBypassToken string
@@ -75,9 +69,6 @@ func Load() (*Config, error) {
 
 		ResendAPIKey: getEnv("RESEND_API_KEY", ""),
 		MailFrom:     getEnv("MAIL_FROM", ""),
-
-		GoogleOAuthClientID:     getEnv("GOOGLE_OAUTH_CLIENT_ID", ""),
-		GoogleOAuthClientSecret: getEnv("GOOGLE_OAUTH_CLIENT_SECRET", ""),
 
 		AntibotBypassToken: getEnv("ANTIBOT_BYPASS_TOKEN", ""),
 

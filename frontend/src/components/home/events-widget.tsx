@@ -98,7 +98,7 @@ function formatPeriod(starts: string | null, ends: string | null): string | null
 
 const WEEKDAYS = ["D", "S", "T", "Q", "Q", "S", "S"] as const;
 
-// Widget "Agenda do condomínio" da home: mural com slide principal (banners do
+// Widget "Eventos do condomínio" da home: mural com slide principal (banners do
 // admin ou boas-vindas), eventos futuros e anúncios. Desktop = card branco com
 // slider em crossfade + painel de calendário fixo; mobile = carrossel compacto.
 export function EventsWidget({ onSeeAll, onExplore }: EventsWidgetProps) {
@@ -338,7 +338,7 @@ function DesktopSlide({
           {ev.description.trim() && <p className="ewd-desc">{ev.description}</p>}
           <div className="ewd-ctas">
             <button type="button" className="ewd-cta" onClick={onSeeAll}>
-              <Icon.Calendar size={14} /> Ver agenda
+              <Icon.Calendar size={14} /> Ver eventos
             </button>
           </div>
         </div>
@@ -590,7 +590,7 @@ function MobileMural({ slides, events, upcoming, today, onSeeAll, onExplore }: M
       onMouseLeave={() => n > 1 && startTimer()}
     >
       <div className="section-title">
-        <h2>Agenda do condomínio</h2>
+        <h2>Eventos do condomínio</h2>
         <button type="button" className="see-all" onClick={onSeeAll}>
           Ver tudo <Icon.ChevRight size={13} />
         </button>
@@ -623,7 +623,7 @@ function MobileMural({ slides, events, upcoming, today, onSeeAll, onExplore }: M
         </div>
 
         {n > 1 && (
-          <div className="events-widget-dots" aria-label="Slides da agenda">
+          <div className="events-widget-dots" aria-label="Slides de eventos">
             {mobileSlides.map((_, i) => (
               <button
                 key={i}

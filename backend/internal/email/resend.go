@@ -144,61 +144,6 @@ func (c *Client) send(ctx context.Context, toEmail, subject, htmlBody, text stri
 	return nil
 }
 
-// SendAgendamentoConfirmado confirms a booking to the visitor who booked it.
-// comQuem is the agenda owner's display name; quando is the pre-formatted
-// pt-BR date/time; meetLink may be empty. Best-effort — caller treats the
-// error as a warning and never lets it block the booking.
-func (c *Client) SendAgendamentoConfirmado(ctx context.Context, toEmail, name, comQuem, quando, meetLink string) error {
-	if !c.Enabled() {
-		return nil
-	}
-	greet := name
-	if greet == "" {
-		greet = "olá"
-	}
-	subject := "Agendamento confirmado — reunião com " + comQuem
-	meetHTML, meetText := "", ""
-	if meetLink != "" {
-		meetHTML = fmt.Sprintf(`
-      <p style="margin:24px 0 0;">
-        <a href="%s" style="display:inline-block; background:linear-gradient(140deg,#d9bc78,#c9a961); color:#0b1b3b; padding:12px 22px; border-radius:12px; text-decoration:none; font-weight:700;">Entrar na reunião (Google Meet)</a>
-      </p>
-      <p style="margin:14px 0 0; line-height:1.5; font-size:12.5px; color:#7a6d55;">
-        Ou copie o link: <a href="%s" style="color:#0b1b3b; word-break:break-all;">%s</a>
-      </p>`, meetLink, meetLink, meetLink)
-		meetText = "Link da reunião (Google Meet): " + meetLink + "\n\n"
-	}
-	htmlBody := fmt.Sprintf(`<!DOCTYPE html>
-<html lang="pt-BR">
-<body style="margin:0; padding:0; background:#FBF8F2; font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:#1a1410;">
-  <div style="max-width:520px; margin:0 auto; padding:24px;">
-    <div style="background:#fff; border-radius:18px; padding:32px 28px; box-shadow:0 4px 24px rgba(11,27,59,0.06);">
-      <h1 style="margin:0 0 14px; font-size:22px; color:#0b1b3b;">Agendamento confirmado ✅</h1>
-      <p style="margin:0 0 14px; line-height:1.6; font-size:15px;">
-        Olá, %s! Sua reunião com <strong>%s</strong> está confirmada.
-      </p>
-      <p style="margin:0 0 4px; line-height:1.6; font-size:15px;">
-        <strong>Quando:</strong> %s
-      </p>%s
-      <p style="margin:28px 0 0; color:#7a6d55; font-size:12.5px; line-height:1.5;">
-        Você também recebeu um convite na sua agenda. Se precisar remarcar, responda a este e-mail.
-      </p>
-    </div>
-    <p style="text-align:center; color:#a89c82; font-size:11.5px; margin-top:18px;">
-      Achadinhos do Condomínio · achadinhoscondominio.com.br
-    </p>
-  </div>
-</body>
-</html>`, greet, comQuem, quando, meetHTML)
-	text := fmt.Sprintf(
-		"Olá, %s! Sua reunião com %s está confirmada.\n\n"+
-			"Quando: %s\n\n%s"+
-			"Você também recebeu um convite na sua agenda. Se precisar remarcar, responda a este e-mail.",
-		greet, comQuem, quando, meetText,
-	)
-	return c.send(ctx, toEmail, subject, htmlBody, text)
-}
-
 // SendFichaCadastro sends the company onboarding form ("ficha de cadastro")
 // link to the responsável. Best-effort — caller treats the error as a warning.
 func (c *Client) SendFichaCadastro(ctx context.Context, toEmail, name, link string) error {

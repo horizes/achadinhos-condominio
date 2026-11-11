@@ -4,7 +4,7 @@ import { EventosPageScreen } from "./eventos-page-screen";
 export const metadata: Metadata = {
   title: "Eventos do condomínio",
   description:
-    "Agenda de eventos e assembleias do seu condomínio no Achadinhos do Condomínio.",
+    "Eventos e assembleias do seu condomínio no Achadinhos do Condomínio.",
   alternates: { canonical: "/eventos" },
   robots: { index: false, follow: true },
 };

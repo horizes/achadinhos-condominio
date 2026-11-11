@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Termos de Uso",
   description:
-    "Condições de uso da plataforma Achadinhos do Condomínio: contas, agendamento, certificação e responsabilidades.",
+    "Condições de uso da plataforma Achadinhos do Condomínio: contas, certificação e responsabilidades.",
   alternates: { canonical: "/termos" },
 };
 
@@ -29,7 +29,7 @@ export default function TermosPage() {
         <p>
           O Achadinhos é uma vitrine que conecta moradores e síndicos a empresas e
           afiliados que atendem condomínios, com busca, perfis, produtos, avaliações,
-          agenda de eventos, agendamento de reuniões com a nossa equipe e a Certificação
+          eventos do condomínio e a Certificação
           Achadinhos. A contratação de serviços e a compra de produtos acontecem
           diretamente entre você e a empresa/afiliado — não somos parte do contrato,
           não processamos pagamentos e não garantimos a execução dos serviços.
@@ -53,16 +53,8 @@ export default function TermosPage() {
           não uma garantia de resultado ou fiança dos serviços prestados.
         </p>
 
-        <h2>4. Agendamento de reuniões</h2>
-        <p>
-          Ao agendar uma reunião você fornece nome, e-mail e WhatsApp para criarmos o
-          evento e enviarmos o convite com o link do Google Meet. Compareça no horário ou
-          cancele com antecedência respondendo ao convite. O tratamento dos dados está
-          descrito na{" "}
-          <Link href="/privacidade">Política de Privacidade</Link>.
-        </p>
 
-        <h2>5. Conteúdo de usuários</h2>
+        <h2>4. Conteúdo de usuários</h2>
         <p>
           Avaliações e comentários devem ser verdadeiros e respeitosos. É proibido
           conteúdo ilegal, ofensivo, difamatório ou spam. Podemos remover conteúdo que
@@ -70,20 +62,20 @@ export default function TermosPage() {
           plataforma.
         </p>
 
-        <h2>6. Empresas e afiliados</h2>
+        <h2>5. Empresas e afiliados</h2>
         <p>
           Dados cadastrais, portfólio e preços exibidos nos perfis são de
           responsabilidade da empresa/afiliado. Informações como preço "sob consulta",
           prazos e condições devem ser confirmadas diretamente com o prestador.
         </p>
 
-        <h2>7. Propriedade intelectual</h2>
+        <h2>6. Propriedade intelectual</h2>
         <p>
           A marca Achadinhos do Condomínio, o design e o software da plataforma são
           protegidos. Logotipos e materiais das empresas pertencem aos seus titulares.
         </p>
 
-        <h2>8. Limitação de responsabilidade</h2>
+        <h2>7. Limitação de responsabilidade</h2>
         <p>
           A plataforma é fornecida "como está". Na máxima extensão permitida em lei, não
           respondemos por danos decorrentes de negociações, contratos ou serviços
@@ -91,7 +83,7 @@ export default function TermosPage() {
           temporárias do serviço.
         </p>
 
-        <h2>9. Contato e foro</h2>
+        <h2>8. Contato e foro</h2>
         <p>
           Dúvidas sobre estes termos:{" "}
           <a href="mailto:contato@achadinhoscondominio.com.br">

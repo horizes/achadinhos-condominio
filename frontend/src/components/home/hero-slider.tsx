@@ -354,7 +354,7 @@ function EventSlide({ event: ev, onClick }: { event: ApiEvent; index: number; on
             className="hero-cta-btn primary"
             onClick={(e) => { e.stopPropagation(); onClick(); }}
           >
-            Ver agenda
+            Ver eventos
           </button>
         </div>
       </div>

@@ -1,5 +1,4 @@
 // Compiled into the GitHub Pages preview only. Never contacts the production API.
-import { publicAsset } from "./site-path";
 
 const categories = [
   { id: "manutencao", label: "Manutenção", short: "Manutenção", icon: "CatTools", count: 2 },
@@ -33,16 +32,11 @@ const products = [
 const user = { id: "demo-admin", name: "Equipe Demonstração", email: "demo@achadinhos.test", role: "admin",
   account_type: "pessoa", condo_name: "Condomínio Demonstração", phone: "", city: "Campinas", state: "SP" };
 const nextDay = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
-const events = [{ id: "demo-evento", title: "Encontro de demonstração", description: "Evento fictício para visualizar a agenda.",
+const events = [{ id: "demo-evento", title: "Encontro de demonstração", description: "Evento fictício para visualizar o calendário.",
   location: "Ambiente de testes", event_date: nextDay, event_time: "14:00", highlight: true, banner_url: "", days: [] }];
 const posts = [{ id: "demo-post", slug: "bem-vindo-a-previa", title: "Conheça o Universo Achadinhos", excerpt: "Uma prévia da nova experiência da plataforma.",
   format: "traditional", content_html: "<p>Esta página demonstra o visual do blog. Nenhum cadastro, reserva ou pagamento real é realizado nesta prévia.</p>",
   cover_url: "", pdf_url: "", published: true, published_at: "2026-11-03T12:00:00Z", created_at: "2026-11-03T12:00:00Z", updated_at: "2026-11-03T12:00:00Z" }];
-const settings = { slug: "ligia", display_name: "Equipe Achadinhos · demonstração", title: "Vamos conversar?",
-  duration_min: 30, timezone: "America/Sao_Paulo", connected: false, google_connected: false,
-  active: true, buffer_min: 0, lead_time_min: 60, horizon_days: 21,
-  work_hours: { "1": [{ start: "09:00", end: "17:00" }] } };
-
 export async function previewResponse(path: string, options: { method: string; body?: unknown }, token: string | null): Promise<Response> {
   const url = new URL(path, "https://preview.invalid");
   const p = url.pathname;
@@ -80,9 +74,6 @@ export async function previewResponse(path: string, options: { method: string; b
   if (p.startsWith("/providers/")) return providers.some(x => p.endsWith(x.id)) ? json(providers.find(x => p.endsWith(x.id))) : fail("Perfil de teste não encontrado.", 404);
   if (p.startsWith("/products/")) return products.some(x => p.endsWith(x.id)) ? json({ product: products.find(x => p.endsWith(x.id)), related_products: products.filter(x => !p.endsWith(x.id)) }) : fail("Produto de teste não encontrado.", 404);
   if (p.startsWith("/sellers/")) return json({ seller: sellers[0], products });
-  if (p === "/agenda/ligia") return json(settings);
-  if (p.endsWith("/slots")) return json({ slots: [] });
-  if (p === "/admin/agenda") return json({ ...settings, public_url: publicAsset("/agendar/ligia/") });
   if (p === "/admin/products") return json({ data: products });
   if (p === "/admin/providers") return json({ data: providers });
   if (p === "/admin/sellers") return json({ data: sellers });

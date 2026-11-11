@@ -236,7 +236,7 @@ export function App({ initialRoute }: AppProps = {}) {
                 {/* Caminhos rápidos de cadastro logo na entrada — só pra quem
                     ainda não tem conta. */}
                 {!isAuthenticated && <LeadPaths />}
-                {/* Mural (agenda + slides do admin) abre a home, como no
+                {/* Mural (eventos + slides do admin) abre a home, como no
                     protótipo do handoff; os destaques vêm em seguida. */}
                 <EventsWidget
                   onSeeAll={() => navigate({ name: "events" })}

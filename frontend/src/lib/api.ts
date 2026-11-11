@@ -948,76 +948,6 @@ export interface CertificateVerification {
   seller?: { id: string; name: string; logo_url?: string };
 }
 
-// ── Agendamento (booking estilo Calendly) ──
-
-// Informações públicas da agenda (GET /agenda/:slug).
-export interface AgendaPublicInfo {
-  slug: string;
-  display_name: string;
-  title: string;
-  duration_min: number;
-  timezone: string;
-  connected: boolean;
-  active: boolean;
-}
-
-export interface AgendaBookPayload {
-  start: string; // ISO com offset (ex: "2026-07-06T09:00:00-03:00")
-  name: string;
-  email: string;
-  whatsapp: string;
-  notes: string;
-}
-
-export interface AgendaBooking {
-  start: string;
-  end: string;
-  meet_link: string;
-}
-
-export interface AgendaWorkWindow {
-  start: string; // "HH:MM"
-  end: string; // "HH:MM"
-}
-
-// Mapa dia-da-semana (0=domingo .. 6=sábado) → janelas de atendimento.
-// JSON serializa chaves de mapa como string ("0".."6").
-export type AgendaWorkHours = Record<string, AgendaWorkWindow[]>;
-
-export interface AgendaSettings {
-  slug: string;
-  display_name: string;
-  title: string;
-  duration_min: number;
-  buffer_min: number;
-  timezone: string;
-  work_hours: AgendaWorkHours;
-  active: boolean;
-  lead_time_min: number;
-  horizon_days: number;
-  connected: boolean;
-}
-
-// PUT /admin/agenda aceita os mesmos campos, menos o estado da conexão.
-export type AgendaSettingsPayload = Omit<AgendaSettings, "connected">;
-
-// Registro de agendamento para conferência no painel admin
-// (GET /admin/agenda/bookings).
-export interface AdminAgendaBooking {
-  id: string;
-  slug: string;
-  name: string;
-  email: string;
-  whatsapp: string;
-  notes: string;
-  starts_at: string;
-  ends_at: string;
-  timezone: string;
-  meet_link: string;
-  google_event_id: string;
-  created_at: string;
-}
-
 export const adminApi = {
   // ── Síndicos (read-only) ──
   async listSindicos(): Promise<AdminSindico[]> {
@@ -1245,23 +1175,6 @@ export const adminApi = {
     });
   },
 
-  // ── Agenda (booking) ──
-  async agendaGet(): Promise<AgendaSettings> {
-    return request<AgendaSettings>("/admin/agenda");
-  },
-  async agendaUpdate(payload: AgendaSettingsPayload): Promise<AgendaSettings> {
-    return request<AgendaSettings>("/admin/agenda", { method: "PUT", body: payload });
-  },
-  async agendaBookings(): Promise<AdminAgendaBooking[]> {
-    const res = await request<{ bookings: AdminAgendaBooking[] }>("/admin/agenda/bookings");
-    return res.bookings ?? [];
-  },
-  async agendaGoogleUrl(): Promise<{ url: string }> {
-    return request<{ url: string }>("/admin/agenda/google/url");
-  },
-  async agendaGoogleDisconnect(): Promise<void> {
-    return request<void>("/admin/agenda/google", { method: "DELETE", parseAs: "none" });
-  },
 };
 
 export const categoriesApi = {
@@ -1325,32 +1238,6 @@ export const blogApi = {
   },
   async get(slug: string): Promise<ApiBlogPost> {
     return request<ApiBlogPost>(`/blog/${encodeURIComponent(slug)}`, { skipAuth: true });
-  },
-};
-
-// Agendamento público (página /agendar/[slug], sem login).
-export const agendaApi = {
-  async get(slug: string): Promise<AgendaPublicInfo> {
-    return request<AgendaPublicInfo>(`/agenda/${encodeURIComponent(slug)}`, {
-      skipAuth: true,
-    });
-  },
-  // Slots livres em ISO com offset. 409 {error:"not_connected"} quando o
-  // Google Agenda não está conectado — o chamador trata como indisponível.
-  async slots(slug: string, from: string, to: string): Promise<string[]> {
-    const qs = new URLSearchParams({ from, to });
-    const res = await request<{ slots: string[] }>(
-      `/agenda/${encodeURIComponent(slug)}/slots?${qs.toString()}`,
-      { skipAuth: true },
-    );
-    return res.slots ?? [];
-  },
-  async book(slug: string, payload: AgendaBookPayload): Promise<AgendaBooking> {
-    return request<AgendaBooking>(`/agenda/${encodeURIComponent(slug)}/book`, {
-      method: "POST",
-      body: payload,
-      skipAuth: true,
-    });
   },
 };
 

@@ -54,11 +54,6 @@ func main() {
 		slog.Warn("ensure-certificate-schema non-fatal error", "err", err)
 	}
 
-	// Semeia a agenda padrão ("ligia") quando não existe. Idempotente.
-	if err := db.EnsureAgendaSettings(context.Background(), gdb); err != nil {
-		slog.Warn("ensure-agenda-settings non-fatal error", "err", err)
-	}
-
 	// Copia data/hora de eventos antigos para event_days. Idempotente.
 	if err := db.EnsureEventDays(context.Background(), gdb); err != nil {
 		slog.Warn("ensure-event-days non-fatal error", "err", err)
