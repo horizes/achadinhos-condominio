@@ -14,7 +14,12 @@ Snapshot das **19 empresas ativas** com perfil público no site oficial, extraí
 | `portfolio_photos.csv` | 20 | PDFs do portfólio das empresas |
 | `certificates.csv` | 15 | Certificados emitidos (código, tier, validade, empresa) sem CPF/nome de responsável |
 | `events.csv` | 1 | Evento da Imersão Condominial |
-| `uploads.tar.gz` (Git LFS) | 103 MB aprox. descomprimido | 110+ arquivos de `/uploads` ativos: logos, fotos de produtos/portfólio, banner e assinatura de e-mail — sem nenhum dado pessoal |
+
+## Imagens e arquivos grandes
+
+O `uploads-sem-assinaturas.tar.gz` (179 MB, contém logos, fotos de produtos/portfólio, banners e a assinatura de e-mail) não vai no repositório: o GitHub bloqueia LFS em forks públicos. Está disponível para download como **asset da release `v1.0.0-nossa-versao`**:
+
+<https://github.com/horizes/achadinhos-condominio/releases/download/v1.0.0-nossa-versao/uploads-sem-assinaturas.tar.gz>
 
 ## Revisão dos dados pessoais
 
