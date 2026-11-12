@@ -1,4 +1,6 @@
-"id","title","description","location","event_date","event_time","created_at","updated_at","deleted_at","highlight","banner_url"
-"d5e19b3b-6ca7-405b-a29e-fba5b0e8b92a","5º Imersão Condominial em Campinas","Participe da 5ª Edição da Imersão Condominial! Um evento presencial dedicado ao setor condominial, reunindo profissionais da área para troca de conhecimento e networking, com a presença confirmada da mediadora Lígia Cláudia.
+id,title,description,location,event_date,event_time,created_at,updated_at,deleted_at,highlight,banner_url
+511546f8-2262-4864-a96c-4a89c9ccf8be,Evento Teste,"","",2026-07-01,17:39,2026-06-30 20:39:52.524513+00,2026-06-30 20:39:52.524513+00,2026-06-30 20:40:08.769776+00,f,""
+4181c01e-538b-497b-8663-8753a3903205,teste,O EVENTO OCORRERA EM TAL DATA,ALI,2026-07-07,12:00,2026-07-07 13:11:06.881724+00,2026-07-07 13:11:07.915752+00,2026-07-07 21:04:32.539928+00,t,/uploads/event-banners/b828c9cd-3a1e-4f2d-b4cc-8e4b187d23b7.png
+d5e19b3b-6ca7-405b-a29e-fba5b0e8b92a,5º Imersão Condominial em Campinas,"Participe da 5ª Edição da Imersão Condominial! Um evento presencial dedicado ao setor condominial, reunindo profissionais da área para troca de conhecimento e networking, com a presença confirmada da mediadora Lígia Cláudia.
 
-Local: Grand House Eventos – R. Sgt. Bombeiro Assiz Degrossoli Filho, 900, Fazenda Santa Cândida, Campinas/SP","R. Sgt. Bombeiro Assiz Degrossoli Filho, 900 – Fazenda Santa Cândida, Campinas","2026-09-24","13:30","2026-09-24 15:03:59.720038+00","2026-09-24 15:06:02.625483+00","","t","/uploads/event-banners/74236c0f-3aa8-4cf4-b2b3-7b226f38f1d5.jpeg"
+Local: Grand House Eventos – R. Sgt. Bombeiro Assiz Degrossoli Filho, 900, Fazenda Santa Cândida, Campinas/SP","R. Sgt. Bombeiro Assiz Degrossoli Filho, 900 – Fazenda Santa Cândida, Campinas",2026-09-24,13:30,2026-09-24 15:03:59.720038+00,2026-09-24 15:06:02.625483+00,,t,/uploads/event-banners/74236c0f-3aa8-4cf4-b2b3-7b226f38f1d5.jpeg

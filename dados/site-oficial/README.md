@@ -1,44 +1,27 @@
-# Dados do site oficial (achadinhoscondominio.com.br)
+# Dados do site oficial (achadinhoscondominio.com.br) — completo, PRIVADO
 
-Snapshot das **19 empresas ativas** com perfil público no site oficial, extraído do banco de produção em **2026-11-12** para facilitar a recriação da nossa versão. Contém somente dados que já são públicos no site. **Sem dados pessoais de pessoas físicas.**
+Snapshot completo do que está em produção hoje (**2026-11-12**), para recriação manual da nossa versão. **Acessível apenas a quem tem acesso a este repositório privado. Contém dados sensíveis (CNPJ/CPF de responsáveis e assinaturas digitais). Não exportar, não distribuir.**
 
 ## Arquivos
 
 | Arquivo | Registros | O que tem |
 |---|---|---|
-| `sellers.csv` | 19 | Empresas: nome, descrição, logo, link/whatsapp, redes, tier de certificado, categoria, rating, reviews, CNPJ da empresa |
-| `seller_categories.csv` | 25 | Vínculo N:N empresa ↔ categoria |
-| `categories.csv` | 50 | Lista completa de categorias (label, ícone, descrição, badge) |
-| `products.csv` | 48 | Produtos com preços e badges |
-| `product_photos.csv` | 50 | Fotos dos produtos |
-| `portfolio_photos.csv` | 20 | PDFs do portfólio das empresas |
-| `certificates.csv` | 15 | Certificados emitidos (código, tier, validade, empresa) sem CPF/nome de responsável |
-| `events.csv` | 1 | Evento da Imersão Condominial |
+| `sellers.csv` | 21 | 19 ativos + 2 soft-deletados (`deleted_at` preenchido). Inclui CNPJ, valor mensal/anual, vigência, contrato |
+| `seller_categories.csv` | 35 | Vínculo N:N empresa ↔ categorias (múltiplas) |
+| `categories.csv` | 83 | Lista canônica completa de categorias |
+| `products.csv` | 51 | Produtos com preços, fotos, badges |
+| `product_photos.csv` | 65 | Fotos dos produtos |
+| `portfolio_photos.csv` | 24 | Fotos/PDFs do portfólio das empresas |
+| `certificates.csv` | 21 | Certificados emitidos com responsável e assinatura (dados pessoais de responsável) |
+| `fichas_cadastro.csv` | 6 | Fichas de "Cadastro de empresas" — com **CNPJ e CPF**, e-mail e telefone de responsáveis (dados sensíveis) |
+| `events.csv` | 5 | Eventos do calendário |
+| `banners.csv` | 1 | Banner principal (no ar atualmente é o evento "Imersão Condominial") |
+| `providers.csv` | 2 | Prestadores (um soft-deletado) |
+| `uploads.tar` | 119 arquivos, 184 MB | Tudo de `/uploads` da produção: 53 produtos, 35 logos, 17 portfólio, 16 assinaturas, 3 banners de eventos |
 
-## Imagens e arquivos grandes
+## Regras de uso
 
-O `uploads-sem-assinaturas.tar.gz` (179 MB, contém logos, fotos de produtos/portfólio, banners e a assinatura de e-mail) não vai no repositório: o GitHub bloqueia LFS em forks públicos. Está disponível para download como **asset da release `v1.0.0-nossa-versao`**:
-
-<https://github.com/horizes/achadinhos-condominio/releases/download/v1.0.0-nossa-versao/uploads-sem-assinaturas.tar.gz>
-
-## Revisão dos dados pessoais
-
-Removidos para preservar a privacidade (a versão pública do site tampouco exibe):
-
-- Nomes e CPFs de responsáveis legais (`fichas_cadastro`)
-- Assinatura digital (pasta `signatures` de `uploads.tar`)
-- Cadastro pessoal
-
-CNPJ e dados de empresas são públicos por natureza (registro público de CNPJs).
-
-## Como usar na recriação
-
-1. Registre os sellers em `sellers.csv` pelas telas de cadastro (admin → Empresas → Nova empresa), mantendo `category_id` conforme `categories.csv`.
-2. As logos e demais imagens estão em `uploads.tar.gz` extraída na raiz do app (`./uploads`) — os caminhos nos CSVs já apontam para `/uploads/logos/<nome>.png` etc.
-3. `seller_categories.csv` relaciona empresas a várias categorias; o admin do site atual permite múltiplas categorias (multi-select).
-4. `certificates.csv` é informativo — se você quiser reemitir os certificados na nossa versão, os códigos e tiers estão ali, mas CPFs/responsáveis precisam ser preenchidos novamente na tela de emissão (`Certificação`).
-
-## Avisos
-
-- Os dados são de autoria das empresas citadas, usadas no site oficial público. Se qualquer empresa pedir remoção de dados desta pasta, remova o arquivo correspondente e faça um commit de remoção.
-- O `.env` e segredos obviamente não fazem parte deste snapshot.
+- **Não abrir, copiar, ou enviar para terceiros** — especialmente `fichas_cadastro.csv` e `certificates.csv`.
+- **Não commitar em repositórios públicos** — este repo é privado justamente por conter dados pessoais.
+- Para recriar manualmente: use o README antigo do snapshot público como guia, mas com os arquivos **completos** neste repositório.
+- Ao terminar a adaptação manual e o deploy, considerar apagar estas fichas (ou devolver as variáveis).
