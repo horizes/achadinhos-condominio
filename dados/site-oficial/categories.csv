@@ -1,0 +1,84 @@
+"id","label","short","icon","badge","description","sort_order","created_at","updated_at"
+"portaria-terceirizada","Portaria terceirizada","Portaria
+terceirizada","CatPortaria","","","110","2026-06-15 11:25:07.816824+00","2026-11-12 13:41:17.195328+00"
+"vigilancia-armada","Vigilância armada","Vigilância
+armada","CatSecurity","","","113","2026-06-15 11:25:07.818067+00","2026-11-12 13:41:17.196859+00"
+"cobertura-garagem","Cobertura de garagem","Cobertura
+garagem","CatMaintenance","","","116","2026-06-15 11:25:07.820107+00","2026-11-12 13:41:17.200246+00"
+"projetos-seguranca-eletronica","Projetos de segurança eletrônica","Projetos
+segurança","CatSecurity","","","118","2026-06-15 11:25:07.820733+00","2026-11-12 13:41:17.202844+00"
+"chaveiro","Chaveiro","Chaveiro","CatMaintenance","","","119","2026-06-15 11:25:07.821334+00","2026-11-12 13:41:17.203915+00"
+"limpeza-caixa-dagua","Limpeza de caixa d'água","Caixa
+d'água","CatCleaning","","","121","2026-06-15 11:25:07.821887+00","2026-11-12 13:41:17.204815+00"
+"auditoria-financeira","Auditoria financeira","Auditoria
+financeira","CatPartners","","","122","2026-06-15 11:25:07.822512+00","2026-11-12 13:41:17.205764+00"
+"vidracaria","Vidraçaria","Vidraçaria","CatMaintenance","","","123","2026-06-15 11:25:07.823144+00","2026-11-12 13:41:17.206872+00"
+"mercadinhos","Mercadinhos","Mercadinhos","CatShopping","","","124","2026-06-15 11:25:07.823695+00","2026-11-12 13:41:17.208841+00"
+"manutencao-bombas","Manutenção de bombas","Manutenção
+bombas","CatPlumbing","","","125","2026-06-15 11:25:07.824414+00","2026-11-12 13:41:17.210227+00"
+"financiamentos-projetos","Financiamentos para projetos","Financia-
+mentos","CatPartners","","","127","2026-06-15 11:25:07.825642+00","2026-11-12 13:41:17.212787+00"
+"caca-vazamentos","Caça vazamentos","Caça
+vazamentos","CatPlumbing","","","129","2026-06-15 11:25:07.826271+00","2026-11-12 13:41:17.213721+00"
+"eletrica","Elétrica","Elétrica","CatElectric","","","13","2026-05-21 17:32:16.464105+00","2026-11-12 13:41:17.18607+00"
+"antenistas","Antenistas","Antenistas","CatElectric","","","105","2026-06-15 11:25:07.813419+00","2026-11-12 13:41:17.190492+00"
+"marcenaria","Marcenaria","Marcenaria","CatMaintenance","","","130","2026-06-15 11:25:07.826929+00","2026-11-12 13:41:17.21495+00"
+"presentes-corporativos","Presentes corporativos","Presentes
+corporativos","CatShopping","","","131","2026-06-15 11:25:07.82758+00","2026-11-12 13:41:17.215941+00"
+"tecnologia","Tecnologia","Tecnologia","CatElectric","","","132","2026-06-15 11:25:07.828174+00","2026-11-12 13:41:17.216741+00"
+"analise-risco","Projetos de análise de risco","Análise
+de risco","CatSecurity","","","133","2026-06-15 11:25:07.828774+00","2026-11-12 13:41:17.21781+00"
+"avcb","AVCB","AVCB","CatSecurity","","","134","2026-06-15 11:25:07.829348+00","2026-11-12 13:41:17.219071+00"
+"piscineiro","Piscineiro","Piscineiro","CatMaintenance","","","136","2026-06-15 11:25:07.829947+00","2026-11-12 13:41:17.219926+00"
+"brinquedos-playground","Brinquedos para playground","Brinquedos
+playground","CatShopping","","","138","2026-06-15 11:25:07.831206+00","2026-11-12 13:41:17.222218+00"
+"jardinagem","Jardinagem","Jardinagem","CatOutsource","","","139","2026-06-15 11:25:07.831867+00","2026-11-12 13:41:17.223725+00"
+"cabeamento-internet","Cabeamento e internet","Cabeamento
+internet","CatElectric","","","106","2026-06-15 11:25:07.814099+00","2026-11-12 13:41:17.191431+00"
+"manutencao-elevadores","Manutenção de elevadores","Manutenção
+elevadores","CatMaintenance","","","107","2026-06-15 11:25:07.814823+00","2026-11-12 13:41:17.192489+00"
+"iluminacao","Iluminação","Iluminação","CatElectric","","","141","2026-06-15 11:25:07.833008+00","2026-11-12 13:41:17.224437+00"
+"administracao-condominios","Administração de condomínios","Administração
+condomínios","CatPartners","","","143","2026-06-15 11:25:07.834114+00","2026-11-12 13:41:17.226391+00"
+"escritorio-advocacia","Escritório de Advocacia","Escritório
+advocacia","CatPartners","","","144","2026-06-18 17:26:16.383456+00","2026-11-12 13:41:17.227198+00"
+"telhadista","Telhadista","Telhadista","CatMaintenance","","","114","2026-06-15 11:25:07.818688+00","2026-11-12 13:41:17.197695+00"
+"imobiliaria","Imobiliária","Imobi-
+liária","CatPartners","","","145","2026-08-26 16:31:25.401601+00","2026-11-12 13:41:17.228105+00"
+"pintura-predial","Pintura predial","Pintura
+predial","CatMaintenance","","","115","2026-06-15 11:25:07.819393+00","2026-11-12 13:41:17.199035+00"
+"shopping","Shopping condomínio","Shopping
+condomínio","CatShopping","NOVO","Produtos para o condomínio com link direto da revenda","2","2026-05-21 17:32:16.455003+00","2026-11-12 13:41:17.174254+00"
+"loja","Loja","Loja","CatShopping","","Lojas parceiras com produtos e ofertas para o condomínio","3","2026-07-06 13:21:24.170872+00","2026-11-12 13:41:17.17578+00"
+"treinamento-funcionarios","Treinamento para funcionários próprios","Treinamento
+funcionários","CatPartners","","","142","2026-06-15 11:25:07.833546+00","2026-11-12 13:41:17.225346+00"
+"seguranca","Segurança eletrônica","Segurança
+eletrônica","CatSecurity","","CFTV, alarmes, controle de acesso e monitoramento","4","2026-05-21 17:32:16.456613+00","2026-11-12 13:41:17.177016+00"
+"terceirizacao","Terceirização","Tercei-
+rização","CatOutsource","","Equipes terceirizadas: portaria, limpeza, manutenção","5","2026-05-21 17:32:16.457399+00","2026-11-12 13:41:17.178802+00"
+"portaria","Portaria virtual","Portaria
+virtual","CatPortaria","","Portaria remota 24h com economia de até 60%","6","2026-05-21 17:32:16.458159+00","2026-11-12 13:41:17.179647+00"
+"facilities","Facilities","Facilities","CatFacilities","","Gestão integrada de serviços prediais","7","2026-05-21 17:32:16.459089+00","2026-11-12 13:41:17.180554+00"
+"manutencao","Manutenção geral","Manutenção
+geral","CatMaintenance","","Hidráulica, elétrica, pintura, marcenaria e mais","8","2026-05-21 17:32:16.460453+00","2026-11-12 13:41:17.181526+00"
+"dedetizacao","Dedetização","Dedeti-
+zação","CatPest","","Controle de pragas com certificado sanitário","9","2026-05-21 17:32:16.461159+00","2026-11-12 13:41:17.182608+00"
+"armarios","Armários inteligentes","Armários
+inteligentes","CatLocker","","Lockers para entregas e correspondências","10","2026-05-21 17:32:16.461837+00","2026-11-12 13:41:17.183568+00"
+"limpeza","Limpeza","Limpeza","CatCleaning","","Diaristas, faxina geral, pós-obra e limpeza profissional","11","2026-05-21 17:32:16.462623+00","2026-11-12 13:41:17.18456+00"
+"hidraulica","Hidráulica","Hidráulica","CatPlumbing","","","12","2026-05-21 17:32:16.463426+00","2026-11-12 13:41:17.185327+00"
+"poste-monitoramento","Poste de monitoramento","Poste
+monitoramento","CatSecurity","","","102","2026-06-15 11:25:07.811347+00","2026-11-12 13:41:17.187169+00"
+"destaque","Destaque do dia","Destaque
+do dia","CatHighlight","TOP","Os melhores prestadores em destaque hoje","1","2026-05-21 17:32:16.452917+00","2026-11-12 13:41:17.169442+00"
+"sindico-interior","Síndico profissional (interior)","Síndico
+interior","CatPartners","","","103","2026-06-15 11:25:07.81204+00","2026-11-12 13:41:17.188283+00"
+"engenharia","Engenharia","Engenharia","CatPartners","","","108","2026-06-15 11:25:07.815586+00","2026-11-12 13:41:17.193441+00"
+"sindico-grandesp","Síndicos profissionais (Grande SP)","Síndicos
+Grande SP","CatPartners","","","104","2026-06-15 11:25:07.812674+00","2026-11-12 13:41:17.189387+00"
+"treinamento-brigada","Treinamento de brigada de incêndio","Treinamento
+brigada","CatSecurity","","","109","2026-06-15 11:25:07.816181+00","2026-11-12 13:41:17.194278+00"
+"seguros-garantidoras","Seguros e garantidoras","Seguros e
+garantidoras","CatPartners","","","126","2026-06-15 11:25:07.825067+00","2026-11-12 13:41:17.211571+00"
+"projetos-arquitetura","Projetos de arquitetura","Projetos
+arquitetura","CatPartners","","","137","2026-06-15 11:25:07.830584+00","2026-11-12 13:41:17.221293+00"
