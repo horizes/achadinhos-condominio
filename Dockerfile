@@ -16,7 +16,7 @@ ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
 ENV NODE_ENV=production
 
 COPY frontend/package.json frontend/package-lock.json ./
-RUN npm ci
+RUN npm ci --include=dev
 
 COPY frontend/ ./
 RUN npm run build
