@@ -57,14 +57,14 @@ export function TopNav({ onSearchClick, onProfile }: TopNavProps) {
             Certificação
           </Link>
 
-          <button
+          {canInstall && <button
             type="button"
             className="top-nav-install"
             onClick={() => void promptInstall()}
           >
             <img src={publicAsset("/icons/icon.png")} alt="" width={18} height={18} style={{ borderRadius: 5 }} />
             Instalar app
-          </button>
+          </button>}
 
           <span className="top-nav-divider" aria-hidden />
 

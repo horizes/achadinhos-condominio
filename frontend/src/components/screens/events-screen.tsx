@@ -26,14 +26,19 @@ export function EventsScreen({ onBack }: EventsScreenProps) {
   const [events, setEvents] = useState<ApiEvent[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const today = useMemo(() => new Date(), []);
-  const [viewYear, setViewYear] = useState(today.getFullYear());
-  const [viewMonth, setViewMonth] = useState(today.getMonth()); // 0-11
-  const [selectedKey, setSelectedKey] = useState(
-    keyOf(today.getFullYear(), today.getMonth(), today.getDate()),
-  );
+  // Static exports may have been built on another day or in another timezone.
+  // The first client render must match that HTML before selecting today's date.
+  const [today, setToday] = useState<Date | null>(null);
+  const [viewYear, setViewYear] = useState(2000);
+  const [viewMonth, setViewMonth] = useState(0);
+  const [selectedKey, setSelectedKey] = useState("");
 
   useEffect(() => {
+    const now = new Date();
+    setToday(now);
+    setViewYear(now.getFullYear());
+    setViewMonth(now.getMonth());
+    setSelectedKey(keyOf(now.getFullYear(), now.getMonth(), now.getDate()));
     let alive = true;
     setLoading(true);
     void eventsApi
@@ -67,7 +72,7 @@ export function EventsScreen({ onBack }: EventsScreenProps) {
     return map;
   }, [events]);
 
-  const todayKey = keyOf(today.getFullYear(), today.getMonth(), today.getDate());
+  const todayKey = today ? keyOf(today.getFullYear(), today.getMonth(), today.getDate()) : "";
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
   const leadingBlanks = new Date(viewYear, viewMonth, 1).getDay(); // 0=Dom
 
@@ -94,6 +99,7 @@ export function EventsScreen({ onBack }: EventsScreenProps) {
 
   const selectedEvents = byDay.get(selectedKey) ?? [];
   const selectedLabel = (() => {
+    if (!selectedKey) return "";
     const [y, m, d] = selectedKey.split("-").map(Number);
     return `${d} de ${MESES[m - 1].toLowerCase()}`;
   })();
@@ -109,6 +115,7 @@ export function EventsScreen({ onBack }: EventsScreenProps) {
       </div>
 
       <div className="screen-body">
+        {!today ? <div className="admin-empty" role="status">Carregando calendário…</div> : <>
         <div className="cal-card">
           <div className="cal-nav">
             <button type="button" className="cal-nav-btn" onClick={prevMonth} aria-label="Mês anterior">
@@ -136,6 +143,8 @@ export function EventsScreen({ onBack }: EventsScreenProps) {
                 <button
                   key={k}
                   type="button"
+                  aria-label={`${d} de ${MESES[viewMonth].toLowerCase()} de ${viewYear}`}
+                  aria-pressed={k === selectedKey}
                   className={cn(
                     "cal-cell",
                     hasEvent && "has-event",
@@ -176,6 +185,7 @@ export function EventsScreen({ onBack }: EventsScreenProps) {
             ))}
           </div>
         )}
+        </>}
 
       </div>
     </div>

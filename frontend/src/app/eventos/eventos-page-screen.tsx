@@ -11,6 +11,7 @@ export function EventosPageScreen() {
 
   return (
     <main className="route-page eventos-page">
+      <h1 className="sr-only">Eventos do condomínio</h1>
       <EventsScreen onBack={() => router.push("/")} />
     </main>
   );

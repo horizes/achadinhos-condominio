@@ -15,7 +15,7 @@ import { useFavorites } from "@/hooks/use-favorites";
 import { useToast } from "@/hooks/use-toast";
 import { useWhatsappHistory } from "@/hooks/use-whatsapp-history";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { cn, tierLabel } from "@/lib/utils";
+import { cn, tierLabel, isPublicCategory } from "@/lib/utils";
 import { Icon } from "@/components/icons";
 import { SellerDetail } from "@/components/screens/seller-detail";
 import { useSellerData } from "@/components/screens/use-seller-data";
@@ -73,7 +73,7 @@ export function EmpresaPageScreen({ seller }: { seller: AdminSeller }) {
         crumbs={[
           { label: "Início", href: "/" },
           { label: "Empresas", href: "/" },
-          ...(mainCat ? [{ label: mainCat.label, href: `/categoria/${mainCat.id}` }] : []),
+          ...(mainCat ? [{ label: mainCat.label, ...(isPublicCategory(mainCat) ? { href: `/categoria/${mainCat.id}` } : {}) }] : []),
           { label: full.name },
         ]}
       >

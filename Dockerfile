@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1.7
 
 # ============================================================
-# Stage 1 — frontend build (Bun + Next.js static export)
+# Stage 1 — frontend build (Node + Next.js static export)
 # ============================================================
-FROM oven/bun:1.2-alpine AS frontend
+FROM node:22-alpine AS frontend
 WORKDIR /app
 
 # Bake the API base URL into the static bundle. We point at production by
@@ -11,20 +11,22 @@ WORKDIR /app
 # build time. Same-origin client calls keep working because the host matches.
 ARG NEXT_PUBLIC_API_URL=https://achadinhoscondominio.com.br/api/v1
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+ARG NEXT_PUBLIC_SITE_URL=https://achadinhoscondominio.com.br
+ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
 ENV NODE_ENV=production
 
-COPY frontend/package.json frontend/bun.lock ./
-RUN bun install --frozen-lockfile
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
 
 COPY frontend/ ./
-RUN bun run build
+RUN npm run build
 
 # generateStaticParams engole erros e cai num placeholder `_unavailable` — se
 # a API de produção estiver fora/bloqueando o build, o export sai sem nenhuma
 # página de empresa/produto e sem URLs no sitemap. Em vez de exigir empresas
 # no sitemap (falha com banco zerado), verifica que a API responde
 # /categories com a lista canônica. Falha alto quando a API está fora.
-RUN bun -e 'const r = await fetch(process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, "") + "/categories"); if (!r.ok) { console.error("ERRO: API inacessivel no build — HTTP " + r.status); process.exit(1); } const j = await r.json(); if (!JSON.stringify(j).includes("manutencao")) { console.error("ERRO: catalogo de categorias vazio/inesperado no build"); process.exit(1); }'
+RUN node --input-type=module -e 'const r = await fetch(process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, "") + "/categories"); if (!r.ok) { console.error("ERRO: API inacessivel no build — HTTP " + r.status); process.exit(1); } const j = await r.json(); if (!JSON.stringify(j).includes("manutencao")) { console.error("ERRO: catalogo de categorias vazio/inesperado no build"); process.exit(1); }'
 
 # After `output: "export"`, the bundle lives in /app/out
 

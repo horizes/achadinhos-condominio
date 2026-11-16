@@ -9,6 +9,7 @@ const buildRevision = Date.now().toString(36);
 
 const withSerwist = withSerwistInit({
   swSrc: "src/app/sw.ts",
+  register: false, // RegisterPWA owns registration and handles unavailable service workers.
   swDest: "public/sw.js",
   cacheOnNavigation: true,
   reloadOnOnline: true,

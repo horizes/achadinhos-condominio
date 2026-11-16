@@ -3,6 +3,7 @@
 import { BrandSignature } from "@/components/brand-signature";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Icon } from "../icons";
 
 // Canal oficial de atendimento no WhatsApp (link de mensagem do negócio).
@@ -45,7 +46,8 @@ interface SiteFooterProps {
 // Rodapé institucional da home: marca + navegação real do app. Colunas no
 // desktop, empilhado no mobile (com respiro pra bottom nav).
 export function SiteFooter({ onShopping, onHighlights, authed }: SiteFooterProps) {
-  const year = new Date().getFullYear();
+  const [year, setYear] = useState<number | null>(null);
+  useEffect(() => setYear(new Date().getFullYear()), []);
 
   return (
     <footer className="site-footer">
