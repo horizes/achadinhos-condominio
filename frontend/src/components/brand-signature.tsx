@@ -12,7 +12,7 @@ export function BrandSignature({ className = "", tone = "ink" }: BrandSignatureP
         <span>DO CONDOMÍNIO</span>
       </span>
       <img
-        src={publicAsset("/brand/mascote-dourado.png")}
+        src={publicAsset("/brand/mascote-dourado-v2.png")}
         alt="Mascote dourado Achadinhos do Condomínio"
         className="brand-signature-mascot"
         width={102} height={112} decoding="async"

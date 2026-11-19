@@ -11,6 +11,7 @@ import { PortfolioViewer } from "./portfolio-viewer";
 import { PdfThumbnail } from "./pdf-thumbnail";
 import { VideoThumbnail } from "./video-thumbnail";
 import { SocialLinks } from "./social-links";
+import { shareProfile } from "@/lib/share-profile";
 
 interface ProviderDetailProps {
   provider: Provider;
@@ -62,6 +63,21 @@ export function ProviderDetail({
         </button>
         <div className="screen-title">Afiliado</div>
         <div className="screen-actions">
+          <button
+            type="button"
+            className="icon-btn"
+            onClick={() =>
+              void shareProfile({
+                title: provider.name,
+                text: `Veja o prestador ${provider.name} no Achadinhos do Condomínio`,
+                url: `${window.location.origin}/prestador/${provider.id}`,
+              })
+            }
+            aria-label="Compartilhar perfil"
+            title="Compartilhar perfil"
+          >
+            <Icon.Share size={18} />
+          </button>
           <button
             type="button"
             className="icon-btn"

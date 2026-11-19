@@ -92,7 +92,7 @@ export async function buildCertificateBlob(input: BuildCertificateInput): Promis
 
   // Logo oficial + mascote da marca. Best-effort: se algum falhar, o PDF sai
   // com o fallback (logo desenhado) / sem o mascote.
-  const mascotDataUrl = await publicImageToDataUrl("/brand/mascote-dourado.png");
+  const mascotDataUrl = await publicImageToDataUrl("/brand/mascote-dourado-v2.png");
   const logoDataUrl = mascotDataUrl;
 
   const data: CertificateDocData = {

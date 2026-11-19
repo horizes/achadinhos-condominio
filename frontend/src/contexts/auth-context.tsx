@@ -1,6 +1,7 @@
 "use client";
 
 import { publicAsset } from "@/lib/site-path";
+import { requestPermissionAfterSignup } from "@/lib/notification-permission";
 
 import {
   createContext,
@@ -121,6 +122,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setTokens(res.access_token, res.refresh_token);
     setAccessToken(res.access_token);
     setUser(res.user);
+    requestPermissionAfterSignup();
   }, []);
 
   const registerEmpresa = useCallback(async (data: RegisterEmpresaPayload) => {
@@ -128,6 +130,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setTokens(res.access_token, res.refresh_token);
     setAccessToken(res.access_token);
     setUser(res.user);
+    requestPermissionAfterSignup();
   }, []);
 
   const logout = useCallback(() => {

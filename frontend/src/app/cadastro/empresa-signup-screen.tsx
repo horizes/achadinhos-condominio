@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ApiError } from "@/lib/api";
+import { getInviteRef } from "@/lib/invite-ref";
 import { useAuth } from "@/contexts/auth-context";
 import { Icon } from "@/components/icons";
 import { BrandLockup } from "@/components/auth/brand-lockup";
@@ -80,6 +81,7 @@ export function EmpresaSignupScreen({ onBack }: { onBack?: () => void }) {
         company_name: companyName,
         document_type: docType,
         document: stripDocument(document),
+        referral: getInviteRef(),
         ...rest,
       });
       router.replace("/minha-empresa");

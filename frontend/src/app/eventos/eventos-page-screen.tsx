@@ -3,9 +3,8 @@
 import { useRouter } from "next/navigation";
 import { EventsScreen } from "@/components/screens/events-screen";
 
-// /eventos — o calendário de eventos (overlay na home) promovido a página
-// real, no mesmo padrão do /perfil: o wrapper .route-page anula o
-// comportamento de modal do .screen no desktop.
+// /eventos — calendário completo de eventos do condomínio + o mural de
+// banners como parte da tela.
 export function EventosPageScreen() {
   const router = useRouter();
 

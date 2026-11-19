@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { eventsApi, type ApiEvent } from "@/lib/api";
 import { Icon } from "../icons";
 import { cn } from "@/lib/utils";
+import { downloadIcs } from "@/lib/ics";
 
 interface EventsScreenProps {
   onBack: () => void;
@@ -180,6 +181,21 @@ export function EventsScreen({ onBack }: EventsScreenProps) {
                   <div className="cal-event-title">{ev.title}</div>
                   {ev.location && <div className="cal-event-loc">📍 {ev.location}</div>}
                   {ev.description && <div className="cal-event-desc">{ev.description}</div>}
+                  <button
+                    type="button"
+                    className="cal-add-ics"
+                    onClick={() =>
+                      downloadIcs({
+                        title: ev.title,
+                        description: ev.description,
+                        location: ev.location,
+                        start: ev.event_date,
+                        time: ev.event_time,
+                      })
+                    }
+                  >
+                    <Icon.Calendar size={12} /> Adicionar à agenda
+                  </button>
                 </div>
               </div>
             ))}
@@ -187,6 +203,7 @@ export function EventsScreen({ onBack }: EventsScreenProps) {
         )}
         </>}
 
+        </>}
       </div>
     </div>
   );

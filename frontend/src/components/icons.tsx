@@ -57,6 +57,13 @@ export const Icon = {
       <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
     </Svg>
   ),
+  Speaker: ({ size = 18, ...rest }: IconProps = {}) => (
+    <Svg size={size} {...rest}>
+      <path d="M11 5 6 9H3v6h3l5 4z" />
+      <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+      <path d="M18.4 5.6a9 9 0 0 1 0 12.8" />
+    </Svg>
+  ),
   Mail: ({ size = 18, ...rest }: IconProps = {}) => (
     <Svg size={size} {...rest}>
       <rect x="3" y="5" width="18" height="14" rx="2" />

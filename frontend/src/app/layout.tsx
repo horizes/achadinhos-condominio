@@ -10,7 +10,9 @@ import {
 } from "@/components/seo/json-ld";
 import "./globals.css";
 import "./executive.css";
+import "./new-home.css";
 import { PreviewBanner } from "@/components/preview-banner";
+import { InviteRefCapture } from "@/components/invite-ref-capture";
 
 const manrope = localFont({
   src: "../../public/fonts/Manrope-variable.ttf",
@@ -103,6 +105,7 @@ export default function RootLayout({
         <JsonLd data={[organizationSchema, websiteSchema]} />
         <AuthProvider>
           <RegisterPWA />
+          <InviteRefCapture />
           {children}
         </AuthProvider>
       </body>

@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import {
+  ApiError,
+  quotesApi,
   sellersApi,
   type AdminSeller,
   type ApiProduct,
   type SellerReview,
 } from "@/lib/api";
+import { useAuth } from "@/contexts/auth-context";
 import type { ContactInput } from "@/hooks/use-whatsapp-history";
 
 // Dados e ações do perfil público de uma empresa. Compartilhado entre o
@@ -24,8 +27,18 @@ export function useSellerData(
   const [reviews, setReviews] = useState<SellerReview[]>([]);
   const [myRating, setMyRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const [myTags, setMyTags] = useState<string[]>([]);
   const [sending, setSending] = useState(false);
   const [reviewMsg, setReviewMsg] = useState<string | null>(null);
+  // Eligibilidade "só quem contratou pode avaliar" — calculada pelo servidor
+  // a partir dos pedidos fechados pelo app. null = ainda não sabemos (ou anônimo).
+  const [canReview, setCanReview] = useState<boolean | null>(null);
+  const { isAuthenticated } = useAuth();
+
+  const toggleTag = (t: string) =>
+    setMyTags((prev) =>
+      prev.includes(t) ? prev.filter((x) => x !== t) : prev.length < 4 ? [...prev, t] : prev,
+    );
 
   // The list/slide payloads omit category and portfolio — fetch the full record.
   useEffect(() => {
@@ -42,6 +55,25 @@ export function useSellerData(
   useEffect(() => {
     void sellersApi.listReviews(seller.id).then(setReviews).catch(() => {});
   }, [seller.id]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setCanReview(null);
+      return;
+    }
+    let alive = true;
+    void quotesApi
+      .eligibility(seller.id)
+      .then((r) => {
+        if (alive) setCanReview(r.can_review);
+      })
+      .catch(() => {
+        if (alive) setCanReview(null);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [seller.id, isAuthenticated]);
 
   const avgRating = reviews.length
     ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length
@@ -63,13 +95,19 @@ export function useSellerData(
       await sellersApi.createReview(seller.id, {
         rating: myRating,
         text: reviewText.trim(),
+        tags: myTags.length ? myTags : undefined,
       });
       setReviewText("");
       setMyRating(0);
+      setMyTags([]);
       setReviewMsg("Avaliação enviada. Obrigado!");
       setReviews(await sellersApi.listReviews(seller.id));
-    } catch {
-      setReviewMsg("Não foi possível enviar a avaliação. Tente novamente.");
+    } catch (err) {
+      setReviewMsg(
+        err instanceof ApiError && err.status === 403
+          ? err.message
+          : "Não foi possível enviar a avaliação. Tente novamente.",
+      );
     } finally {
       setSending(false);
     }
@@ -125,5 +163,9 @@ export function useSellerData(
     categoryLabel,
     openWhatsapp,
     openSite,
+    canReview,
+    myTags,
+    toggleTag,
+    isAuthenticated,
   };
 }

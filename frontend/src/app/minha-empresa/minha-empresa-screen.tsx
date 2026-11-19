@@ -9,7 +9,9 @@ import {
   isPdf,
   isVideo,
   myCompanyApi,
+  quotesApi,
   type AdminSeller,
+  type ApiQuoteReceived,
 } from "@/lib/api";
 import { useAuth } from "@/contexts/auth-context";
 import { Icon } from "@/components/icons";
@@ -71,6 +73,8 @@ export function MinhaEmpresaScreen() {
   const [notice, setNotice] = useState<{ kind: "error" | "success"; text: string } | null>(null);
   const [uploading, setUploading] = useState(false);
   const [videoLink, setVideoLink] = useState("");
+  const [quotes, setQuotes] = useState<ApiQuoteReceived[] | null>(null);
+  const [quoteBusy, setQuoteBusy] = useState<string | null>(null);
   const logoInput = useRef<HTMLInputElement>(null);
   const portfolioInput = useRef<HTMLInputElement>(null);
 
@@ -91,7 +95,23 @@ export function MinhaEmpresaScreen() {
         setFields(toFields(s));
       })
       .catch((err) => setLoadError(errorMessage(err, "Não foi possível carregar sua empresa.")));
+    quotesApi
+      .received()
+      .then(setQuotes)
+      .catch(() => setQuotes([]));
   }, [isLoading, isAuthenticated, user?.role, router]);
+
+  async function handleQuoteStatus(id: string, status: "respondido" | "fechado") {
+    setQuoteBusy(id);
+    try {
+      await quotesApi.patchStatus(id, status);
+      setQuotes((prev) => (prev ? prev.map((q) => (q.id === id ? { ...q, status } : q)) : prev));
+    } catch (err) {
+      setNotice({ kind: "error", text: errorMessage(err, "Não foi possível atualizar o pedido agora.") });
+    } finally {
+      setQuoteBusy(null);
+    }
+  }
 
   async function handleSave(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -254,6 +274,65 @@ export function MinhaEmpresaScreen() {
                   <span>{notice.text}</span>
                 </div>
               )}
+
+              {/* Pedidos de orçamento recebidos (spec: notificação para o fornecedor) */}
+              <section className="my-quotes-received" id="pedidos" aria-label="Pedidos de orçamento recebidos">
+                <div className="auth-label">
+                  Pedidos de orçamento{" "}
+                  <span className="auth-label-hint">({quotes?.length ?? 0})</span>
+                </div>
+                {quotes === null ? (
+                  <p className="auth-subtitle" style={{ margin: 0 }}>
+                    <span className="auth-spinner" aria-hidden /> Carregando pedidos…
+                  </p>
+                ) : quotes.length === 0 ? (
+                  <p className="auth-subtitle" style={{ margin: 0 }}>
+                    Nenhum pedido recebido ainda. Quando um síndico pedir orçamento para a sua
+                    empresa, ele aparece aqui — e você recebe uma notificação.
+                  </p>
+                ) : (
+                  <ul className="my-quotes-received-list">
+                    {quotes.map((qq) => (
+                      <li key={qq.id} className="my-quote-received-item">
+                        <div className="my-quote-received-head">
+                          <strong>{qq.service}</strong>
+                          <span className={`quote-status-pill ${qq.status}`}>
+                            {qq.status === "enviado" ? "Enviado" : qq.status === "respondido" ? "Respondido" : "Fechado"}
+                          </span>
+                        </div>
+                        <p className="my-quote-received-need">{qq.need}</p>
+                        <div className="my-quote-received-meta">
+                          {qq.requester.name} · {formatPhone(qq.requester.phone)} ·{" "}
+                          {new Date(qq.created_at).toLocaleDateString("pt-BR")}
+                          {qq.photos > 0 ? ` · ${qq.photos} foto${qq.photos === 1 ? "" : "s"}` : ""}
+                        </div>
+                        {qq.status !== "fechado" && (
+                          <div className="my-quote-received-actions">
+                            {qq.status === "enviado" && (
+                              <button
+                                type="button"
+                                className="my-company-btn"
+                                disabled={quoteBusy === qq.id}
+                                onClick={() => handleQuoteStatus(qq.id, "respondido")}
+                              >
+                                Marcar como respondido
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              className="my-company-btn my-company-btn--gold"
+                              disabled={quoteBusy === qq.id}
+                              onClick={() => handleQuoteStatus(qq.id, "fechado")}
+                            >
+                              Fechar pedido
+                            </button>
+                          </div>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
 
               {/* Logo */}
               <div className="my-company-logo">

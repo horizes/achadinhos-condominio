@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { eventsApi, bannersApi, getImageUrl, type ApiEvent, type ApiBanner } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { Icon } from "../icons";
+import { downloadIcs } from "@/lib/ics";
 
 // Abre o destino de um anúncio: URL absoluta em nova aba, caminho do site na
 // própria aba (SPA). Sem link, o clique não faz nada.
@@ -211,7 +212,7 @@ function DesktopMural({ slides, events, upcoming, today, onSeeAll, onExplore }: 
     `${String(active + 1).padStart(2, "0")} / ${String(n).padStart(2, "0")}`;
 
   return (
-    <div className="section events-widget-section ew-desktop">
+    <div className="events-widget-wrap ew-desktop">
       <div className="ewd-card">
         <div
           className="ewd-slider"
@@ -517,6 +518,25 @@ function DesktopCalendar({
                   <div className="ewd-cal-item-title">{ev.title}</div>
                   {meta && <div className="ewd-cal-item-meta">{meta}</div>}
                 </div>
+                <button
+                  type="button"
+                  className="ewd-ics-btn"
+                  aria-label={`Adicionar à agenda: ${ev.title}`}
+                  title="Adicionar à agenda"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    downloadIcs({
+                      title: ev.title,
+                      description: ev.description,
+                      location: ev.location,
+                      start: ev.event_date,
+                      time: ev.event_time,
+                    });
+                  }}
+                >
+                  <Icon.Calendar size={14} />
+                </button>
               </div>
             );
           })}
@@ -585,7 +605,7 @@ function MobileMural({ slides, events, upcoming, today, onSeeAll, onExplore }: M
 
   return (
     <div
-      className="section events-widget-section ew-mobile"
+      className="events-widget-wrap ew-mobile"
       onMouseEnter={stopTimer}
       onMouseLeave={() => n > 1 && startTimer()}
     >
@@ -679,6 +699,25 @@ function CalendarSlideMobile({
               <span className="ew-next-date">{formatShortDate(ev.event_date)}</span>
               <span className="ew-next-name">{ev.title}</span>
               {ev.event_time && <span className="ew-next-time">{ev.event_time}</span>}
+              <button
+                type="button"
+                className="ewd-ics-btn"
+                aria-label={`Adicionar à agenda: ${ev.title}`}
+                title="Adicionar à agenda"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  downloadIcs({
+                    title: ev.title,
+                    description: ev.description,
+                    location: ev.location,
+                    start: ev.event_date,
+                    time: ev.event_time,
+                  });
+                }}
+              >
+                <Icon.Calendar size={13} />
+              </button>
             </div>
           ))
         )}

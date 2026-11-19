@@ -8,7 +8,8 @@ export type NavId = "home" | "events" | "fav" | "profile";
 interface BottomNavProps {
   active: NavId;
   onSelect: (id: NavId) => void;
-  onInstall: () => void;
+  /** Botão central dourado "Orçamento" — abre o pedido de orçamento (spec). */
+  onQuote: () => void;
   authed?: boolean;
 }
 
@@ -19,7 +20,7 @@ const ITEMS_LEFT: NavItem[] = [
   { id: "fav", label: "Favoritos", icon: "Heart" },
 ];
 
-export function BottomNav({ active, onSelect, onInstall, authed }: BottomNavProps) {
+export function BottomNav({ active, onSelect, onQuote, authed }: BottomNavProps) {
   const itemsRight: NavItem[] = [
     { id: "events", label: "Eventos", icon: "Calendar" },
     { id: "profile", label: authed ? "Perfil" : "Login", icon: "User" },
@@ -47,13 +48,13 @@ export function BottomNav({ active, onSelect, onInstall, authed }: BottomNavProp
       <button
         type="button"
         className="nav-fab"
-        onClick={onInstall}
-        aria-label="Instalar o app"
+        onClick={onQuote}
+        aria-label="Pedir orçamento"
       >
-        <span className="nav-fab-circle">
-          <Icon.Download size={22} />
+        <span className="nav-fab-circle budget">
+          <Icon.Plus size={22} />
         </span>
-        <span className="nav-fab-label">Instalar</span>
+        <span className="nav-fab-label">Orçamento</span>
       </button>
       {itemsRight.map(renderItem)}
     </nav>

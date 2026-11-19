@@ -11,8 +11,15 @@
 const STORAGE_ACCESS = "achadinhos.auth.access";
 const STORAGE_REFRESH = "achadinhos.auth.refresh";
 
+// Same-origin route when running in the browser: the Go server (or Traefik)
+// already serves /api/v1 for this host. This works for ANY domain we mount
+// the app on — production, preview, local — without baking an absolute URL
+// into the static bundle (which causes CORS failures).
+const CLIENT_BASE_URL = "/api/v1";
+const SSR_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ?? "https://achadinhoscondominio.com.br/api/v1";
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080/api/v1";
+  typeof window !== "undefined" ? CLIENT_BASE_URL : SSR_BASE_URL;
 
 // ============== Types ==============
 
@@ -346,6 +353,8 @@ export interface RegisterSindicoPayload {
   address: AddressPayload;
   condo_name?: string;
   condo_role?: "morador" | "sindico" | "conselho";
+  /** Convite de quem indicou este cadastro (?convite=<user-id>). */
+  referral?: string;
 }
 
 // Autocadastro da empresa free (sem certificado): cria o login do
@@ -365,6 +374,8 @@ export interface RegisterEmpresaPayload {
   facebook?: string;
   tiktok?: string;
   youtube?: string;
+  /** Convite de quem indicou este cadastro (?convite=<user-id>). */
+  referral?: string;
 }
 
 export const auth = {
@@ -460,9 +471,8 @@ export function externalHref(url: string): string {
 export function getImageUrl(path: string): string {
   if (!path) return "";
   if (path.startsWith("http")) return path;
-  const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080/api/v1";
-  const host = base.replace(/\/api\/v1\/?.*$/, "");
-  return `${host}${path}`;
+  // Same-origin uploads: Traefik/Go serves /uploads/* on the same host.
+  return path.startsWith("/") ? path : `/${path}`;
 }
 
 /** True when the given path or URL points to a PDF file. */
@@ -646,6 +656,9 @@ export interface SellerReview {
   id: string;
   rating: number;
   text: string;
+  tags?: string[];
+  /** true = avaliação de quem teve pedido FECHADO pelo app (spec) — o backend calcula, nunca o cliente. */
+  verified?: boolean;
   created_at: string;
   user?: { id: string; name: string };
 }
@@ -1232,6 +1245,116 @@ export const bannersApi = {
   },
 };
 
+
+// Números agregados para a "prova social" da tela inicial. Público, sem auth.
+export const statsApi = {
+  async get(): Promise<{
+    certified_companies: number;
+    average_rating: number;
+    condominios: number;
+  }> {
+    return request("/stats", { skipAuth: true });
+  },
+};
+
+// Top da região (spec: "os 3 fornecedores mais bem avaliados este mês").
+// scope = "month" (avaliações deste mês) ou "all_time" — fallback honesto
+// quando o mês tem menos de 3 avaliados. O rótulo da seção segue o scope.
+export interface ApiTopRegion {
+  scope: "month" | "all_time";
+  items: {
+    id: string;
+    name: string;
+    logo_url?: string;
+    category_id?: string;
+    rating: number;
+    reviews_count: number;
+  }[];
+}
+export const topRegionApi = {
+  async get(): Promise<ApiTopRegion> {
+    return request("/top-region", { skipAuth: true });
+  },
+};
+
+// Sino de notificações (spec: ponto dourado "quando houver novidade").
+// Lista real do backend — só eventos reais (pedido recebido, status alterado).
+export interface ApiNotification {
+  id: string;
+  type: string;
+  title: string;
+  body: string;
+  link?: string;
+  read_at?: string | null;
+  created_at: string;
+}
+export const notificationsApi = {
+  async list(): Promise<{ unread: number; data: ApiNotification[] }> {
+    return request("/notifications");
+  },
+  async unreadCount(): Promise<{ unread: number }> {
+    return request("/notifications/unread-count");
+  },
+  async markRead(id: string): Promise<void> {
+    await request(`/notifications/${encodeURIComponent(id)}/read`, { method: "POST" });
+  },
+  async markAllRead(): Promise<void> {
+    await request("/notifications/read-all", { method: "POST" });
+  },
+};
+
+// Pedido de orçamento — o síndico envia, a empresa recebe notificação e
+// responde; o status (Enviado/Respondido/Fechado) acompanha o pedido.
+// Fechado destrava "Avaliar" (regra verificada no backend).
+export type QuoteStatus = "enviado" | "respondido" | "fechado";
+export interface ApiQuoteMine {
+  id: string;
+  created_at: string;
+  service: string;
+  need: string;
+  deadline: string;
+  status: QuoteStatus;
+  seller?: { id: string; name: string; logo_url?: string };
+}
+export interface ApiQuoteReceived {
+  id: string;
+  created_at: string;
+  service: string;
+  need: string;
+  deadline: string;
+  photos: number;
+  status: QuoteStatus;
+  requester: { name: string; phone: string };
+}
+export const quotesApi = {
+  async create(payload: {
+    seller_id?: string;
+    service: string;
+    need: string;
+    deadline: "hoje" | "3dias" | "7dias" | "15dias" | "30dias" | "sem_prazo";
+    photos?: number;
+  }): Promise<ApiQuoteMine> {
+    return request("/quotes", { method: "POST", body: payload });
+  },
+  async mine(): Promise<ApiQuoteMine[]> {
+    const res = await request<{ data: ApiQuoteMine[] }>("/quotes/mine");
+    return res.data ?? [];
+  },
+  async eligibility(sellerId: string): Promise<{ can_review: boolean; reason: string }> {
+    return request(`/quotes/eligibility?seller_id=${encodeURIComponent(sellerId)}`);
+  },
+  // Empresa: pedidos recebidos (exige role empresa).
+  async received(): Promise<ApiQuoteReceived[]> {
+    const res = await request<{ data: ApiQuoteReceived[] }>("/me/empresa/pedidos");
+    return res.data ?? [];
+  },
+  async patchStatus(id: string, status: "respondido" | "fechado"): Promise<ApiQuoteMine> {
+    return request(`/me/empresa/pedidos/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      body: { status },
+    });
+  },
+};
 export const blogApi = {
   async list(): Promise<ApiBlogPost[]> {
     const res = await request<{ data: ApiBlogPost[] }>("/blog", { skipAuth: true }); return res.data ?? [];
@@ -1319,7 +1442,7 @@ export const sellersApi = {
   // Create or update the current user's review for a seller (requires auth).
   async createReview(
     id: string,
-    payload: { rating: number; text: string },
+    payload: { rating: number; text?: string; tags?: string[] },
   ): Promise<SellerReview> {
     return request<SellerReview>(`/sellers/${id}/reviews`, {
       method: "POST",

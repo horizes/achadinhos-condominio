@@ -14,13 +14,18 @@ import { useWhatsappHistory } from "@/hooks/use-whatsapp-history";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Icon } from "./icons";
 import { Header } from "./home/header";
-import { LocationBar } from "./home/location-bar";
-import { LeadPaths } from "./home/lead-paths";
-import { HeroSlider } from "./home/hero-slider";
+import { VideoWelcome } from "./home/video-welcome";
+import { CondoSelector } from "./home/condo-selector";
+import { UniverseCards } from "./home/universe-cards";
+import { ProofSocial } from "./home/proof-social";
+import { SignupDuo } from "./home/signup-duo";
 import { EventsWidget } from "./home/events-widget";
+import { InviteShare } from "./home/invite-share";
+import { TopRegion } from "./home/top-region";
+
 import { CategoriesSection } from "./home/categories-section";
 import { ProvidersSection } from "./home/providers-section";
-import { FeaturedCompanies } from "./home/featured-companies";
+
 import { BottomNav, type NavId } from "./home/bottom-nav";
 import { SearchOverlay } from "./home/search-overlay";
 import { InstallSheet } from "./home/install-sheet";
@@ -36,9 +41,8 @@ import { EventsScreen } from "./screens/events-screen";
 import { ShoppingScreen } from "./shop/shopping-screen";
 import { ProductDetail } from "./shop/product-detail";
 import { ProfileScreen } from "./screens/profile-screen";
-import { TopNav } from "./web/top-nav";
-import { CategorySidebar, FILTERS, type FilterId } from "./web/category-sidebar";
 import { SiteFooter } from "./web/site-footer";
+import { FILTERS, type FilterId } from "./web/category-sidebar";
 import { cn } from "@/lib/utils";
 
 interface AppProps {
@@ -73,6 +77,22 @@ export function App({ initialRoute }: AppProps = {}) {
       setInstallHelpOpen(true);
     }
   };
+
+  // Botão central dourado "Orçamento": abre o pedido de orçamento
+  // (página própria /orcamento, com voltar e navegação funcionando).
+  const handleQuote = () => router.push("/orcamento");
+
+  // Convite: ?convite=<id> marca quem indicou este aparelho (sign superficial;
+  // o vínculo definitivo é registrado quando o cadastro for concluído).
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const inviter = params.get("convite");
+      if (inviter) window.localStorage.setItem("achadinhos.convite", inviter);
+    } catch {
+      /* sem armazenamento */
+    }
+  }, []);
 
   const navigate = (r: Route) => setRoute(r);
   // When the App was mounted on a deep-link page (e.g. /empresa/[id]) the
@@ -211,57 +231,41 @@ export function App({ initialRoute }: AppProps = {}) {
 
   return (
     <div className="device-frame">
-      <TopNav
-        onSearchClick={() => setSearchOpen(true)}
-        // No desktop o perfil agora é página real (/perfil), com URL própria
-        // e refresh/voltar do navegador funcionando.
-        onProfile={() => router.push("/perfil")}
-      />
       <div className="app">
         <div className="app-scroll">
-          <Header onSearchClick={() => setSearchOpen(true)} />
+          <Header
+            onSearchClick={() => setSearchOpen(true)}
+            onProfile={() => router.push("/perfil")}
+          />
           <div className="web-container">
-            <div className="web-shell">
-              <aside className="web-sidebar">
-                <CategorySidebar
-                  activeCat={activeCat}
-                  onSelectCat={goCategory}
-                  filters={activeFilters}
-                  onToggleFilter={toggleFilter}
-                  filterOptions={filterOptions}
-                />
-              </aside>
-              <div className="web-main">
-                <LocationBar />
-                {/* Caminhos rápidos de cadastro logo na entrada — só pra quem
-                    ainda não tem conta. */}
-                {!isAuthenticated && <LeadPaths />}
-                {/* Mural (eventos + slides do admin) abre a home, como no
-                    protótipo do handoff; os destaques vêm em seguida. */}
-                <EventsWidget
-                  onSeeAll={() => navigate({ name: "events" })}
-                  onExplore={() => navigate({ name: "allcats" })}
-                />
-                <HeroSlider
-                  onProvider={goProvider}
-                  onProduct={onProductOpen}
-                  onSeller={goSeller}
-                  onWhatsapp={openWhatsapp}
-                  onEvent={() => navigate({ name: "events" })}
-                />
+            <div className="app-column">
+                <VideoWelcome />
+                <CondoSelector />
                 <CategoriesSection
                   active={activeCat}
                   onSelect={goCategory}
                   onSeeAll={() => navigate({ name: "allcats" })}
                 />
-                <InstallBanner onInstall={handleInstall} />
-                {/* Ordem pedida pelo cliente: 1º destaques, 2º recomendados
-                    (empresas afiliadas + prestadores), 3º lojas. */}
-                <FeaturedCompanies
-                  onSeller={goSeller}
-                  isFav={isFav}
-                  onToggleFav={toggleSellerFav}
-                />
+                {/* Mural de eventos — capa dos eventos do condomínio (banners do
+                    admin, próximos eventos e anúncios), logo após o condomínio e as
+                    categorias. */}
+                <section className="section ev-mural-section" aria-label="Eventos do condomínio">
+                  <div className="section-title ev-mural-desktop-title">
+                    <h2>Eventos do condomínio</h2>
+                    <button type="button" className="see-all" onClick={() => navigate({ name: "events" })}>
+                      Ver todos <Icon.ChevRight size={13} />
+                    </button>
+                  </div>
+                  <EventsWidget
+                    onSeeAll={() => navigate({ name: "events" })}
+                    onExplore={() => navigate({ name: "allcats" })}
+                  />
+                </section>
+                <UniverseCards onSeller={goSeller} />
+                <ProofSocial />
+                {!isAuthenticated && <SignupDuo />}
+                {/* Serviços e prestadores recomendados — a home continua com 1º
+                    recomendados (empresas afiliadas + prestadores), 2º lojas. */}
                 <ProvidersSection
                   providers={filteredProviders}
                   isFav={isFav}
@@ -288,6 +292,9 @@ export function App({ initialRoute }: AppProps = {}) {
                     onToggleSellerFav={toggleSellerFav}
                   />
                 )}
+                <InviteShare />
+                <TopRegion />
+                <InstallBanner onInstall={handleInstall} />
                 <Link href="/certificacao" className="home-cert-link">
                   <Icon.Award size={16} />
                   <span>
@@ -296,7 +303,6 @@ export function App({ initialRoute }: AppProps = {}) {
                   <Icon.ChevRight size={15} />
                 </Link>
                 <div className="bottom-spacer" />
-              </div>
             </div>
           </div>
           <SiteFooter
@@ -309,7 +315,7 @@ export function App({ initialRoute }: AppProps = {}) {
         <BottomNav
           active={activeNav}
           onSelect={onNavSelect}
-          onInstall={handleInstall}
+          onQuote={handleQuote}
           authed={isAuthenticated}
         />
 

@@ -258,7 +258,7 @@ export function LoginScreen() {
         <div className="login-footer-row">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={publicAsset("/brand/mascote-dourado.png")}
+            src={publicAsset("/brand/mascote-dourado-v2.png")}
             alt=""
             className="login-mascot"
             loading="lazy"

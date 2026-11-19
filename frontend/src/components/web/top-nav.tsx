@@ -53,6 +53,12 @@ export function TopNav({ onSearchClick, onProfile }: TopNavProps) {
           <Link href="/eventos" className="top-nav-link">
             Eventos
           </Link>
+          <Link href="/construcao" className="top-nav-link">
+            Construção
+          </Link>
+          <Link href="/indica" className="top-nav-link">
+            Indica
+          </Link>
           <Link href="/certificacao" className="top-nav-link">
             Certificação
           </Link>

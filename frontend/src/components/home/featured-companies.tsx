@@ -1,51 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { sellersApi, getImageUrl, type AdminSeller } from "@/lib/api";
+import { getImageUrl, type AdminSeller } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { Icon } from "../icons";
 import { CertSeal } from "../cert-seal";
-
-interface FeaturedCompaniesProps {
-  onSeller: (s: AdminSeller) => void;
-  isFav: (id: number | string) => boolean;
-  onToggleFav: (id: string) => void;
-}
-
-// FeaturedCompanies renders the home "Empresas em destaque" strip — the
-// empresas (sellers) flagged with highlight=true in the admin panel. Renders
-// nothing when there are none.
-export function FeaturedCompanies({ onSeller, isFav, onToggleFav }: FeaturedCompaniesProps) {
-  const [companies, setCompanies] = useState<AdminSeller[]>([]);
-
-  useEffect(() => {
-    void sellersApi
-      .list({ highlight: true })
-      .then(setCompanies)
-      .catch(() => {});
-  }, []);
-
-  if (companies.length === 0) return null;
-
-  return (
-    <div className="section">
-      <div className="section-title">
-        <h2>Empresas em destaque</h2>
-      </div>
-      <div className="providers">
-        {companies.map((c) => (
-          <CompanyCard
-            key={c.id}
-            company={c}
-            onClick={() => onSeller(c)}
-            isFav={isFav(c.id)}
-            onToggleFav={() => onToggleFav(c.id)}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
 
 interface CompanyCardProps {
   company: AdminSeller;
@@ -54,9 +12,9 @@ interface CompanyCardProps {
   onToggleFav: () => void;
 }
 
-// CompanyCard is the list-row card for an empresa, reused on the home destaque
-// strip, the category screen and the favorites screen.
-export function CompanyCard({ company: c, onClick, isFav, onToggleFav }: CompanyCardProps) {
+// CompanyCard is the shared list-row card for an empresa — usada na home
+// (recomendados, lojas), na tela de categoria, no shopping e nos favoritos.
+export function CompanyCard({ company: c, onClick, isFav, onToggleFav, onQuote }: CompanyCardProps & { onQuote?: () => void }) {
   return (
     <div
       className="provider"
@@ -90,6 +48,18 @@ export function CompanyCard({ company: c, onClick, isFav, onToggleFav }: Company
           <CertSeal tier={c.cert_tier} />
           {c.partner && <span className="provider-badge">Parceira</span>}
         </div>
+        {onQuote && (
+          <button
+            type="button"
+            className="quote-chip"
+            onClick={(e) => {
+              e.stopPropagation();
+              onQuote();
+            }}
+          >
+            Pedir orçamento
+          </button>
+        )}
         <div
           className="provider-cat"
           style={{
@@ -100,6 +70,15 @@ export function CompanyCard({ company: c, onClick, isFav, onToggleFav }: Company
         >
           {c.description?.trim() || "Empresa"}
         </div>
+        {(c.rating ?? 0) > 0 && (
+          <div
+            className="provider-cat"
+            style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10.5 }}
+          >
+            <Icon.Star size={10} />
+            {(c.rating ?? 0).toFixed(1).replace(".", ",")} · {c.reviews_count ?? 0} avaliações
+          </div>
+        )}
       </div>
       <button
         type="button"

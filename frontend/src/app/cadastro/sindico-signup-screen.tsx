@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ApiError } from "@/lib/api";
+import { getInviteRef } from "@/lib/invite-ref";
 import { useAuth, type RegisterSindicoPayload } from "@/contexts/auth-context";
 import { Icon } from "@/components/icons";
 import { BrandLockup } from "@/components/auth/brand-lockup";
@@ -205,6 +206,8 @@ export function SindicoSignupScreen({
       payload.cpf = stripDocument(form.cpf);
       payload.condo_role = form.condoRole as "morador" | "sindico" | "conselho";
     }
+    // Quem indicou este aparelho (?convite=<user-id>) — registrado no cadastro.
+    payload.referral = getInviteRef();
 
     setSubmitting(true);
     try {
