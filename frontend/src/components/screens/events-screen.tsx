@@ -202,8 +202,6 @@ export function EventsScreen({ onBack }: EventsScreenProps) {
           </div>
         )}
         </>}
-
-        </>}
       </div>
     </div>
   );
