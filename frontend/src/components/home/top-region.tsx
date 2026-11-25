@@ -5,7 +5,7 @@ import Link from "next/link";
 import { getImageUrl, topRegionApi, type ApiTopRegion } from "@/lib/api";
 import { Icon } from "../icons";
 
-// Seção "Top da região este mês" (item 11 da spec): os 3 fornecedores mais
+// Seção "Destaque do mês" (item 11 da spec): os 3 fornecedores mais
 // bem avaliados no MÊS, com medalhas ouro, prata e bronze. O endpoint declara
 // o escopo da resposta: "month" (avaliações deste mês) ou "all_time" —
 // fallback honesto quando o mês ainda não tem 3 avaliados. Nenhum número é
@@ -28,9 +28,9 @@ export function TopRegion() {
   const isMonth = data.scope === "month";
 
   return (
-    <section className="top-region" aria-label="Top da região este mês">
+    <section className="top-region" aria-label="Destaque do mês">
       <div className="section-title">
-        <h2>Top da região este mês</h2>
+        <h2>Destaque do mês</h2>
         <span className="see-all" style={{ fontSize: 10.5 }}>
           {isMonth ? "por avaliação do mês" : "por avaliação geral"}
         </span>

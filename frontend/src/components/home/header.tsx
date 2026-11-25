@@ -273,9 +273,9 @@ export function Header({ onSearchClick, onProfile }: HeaderProps) {
               {bullet}! Que bom te ver por aqui.
             </div>
             <h1 className="app-title">
-              Encontre. Compare.
+              Aqui você não arrisca,
               <br />
-              Escolha <em>com segurança</em>.
+              você escolhe <em>com segurança!</em>
             </h1>
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}

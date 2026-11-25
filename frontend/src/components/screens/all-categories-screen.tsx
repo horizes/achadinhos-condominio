@@ -86,18 +86,6 @@ export function AllCategoriesScreen({
           </div>
         )}
 
-        <div className="cats-mid-msg">
-          Além de fornecedores de produtos e equipamentos essenciais para o
-          dia a dia dos condomínios.
-          <br />
-          <br />
-          <strong>
-            Aqui o condomínio não arrisca.
-            <br />
-            Aqui ele escolhe com segurança.
-          </strong>
-        </div>
-
         {logos.length > 0 && (
           <section className="cats-logos-section">
             <h3 className="cats-logos-title">Empresas parceiras</h3>
